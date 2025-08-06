@@ -1,22 +1,41 @@
 package com.xiaoxin.blog.web.admin.controller;
 
+import com.xiaoxin.blog.common.login.LoginUser;
+import com.xiaoxin.blog.common.login.LoginUserHolder;
 import com.xiaoxin.blog.common.result.Result;
+import com.xiaoxin.blog.model.entity.User;
+import com.xiaoxin.blog.web.admin.service.AuthService;
+import com.xiaoxin.blog.web.admin.service.UserService;
+import com.xiaoxin.blog.web.admin.vo.CaptchaVo;
+import com.xiaoxin.blog.web.admin.vo.AuthVo;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/admin/auth")
 @Tag(name = "登录认证管理", description = "登录认证、注册、修改密码等接口")
 public class AuthController {
+    @Autowired
+    private AuthService authService;
+    @Autowired
+    private UserService userService;
+
+
+    @Operation(summary = "获取验证码")
+    @PostMapping("/getCaptcha")
+    public Result<CaptchaVo> getCaptcha() {
+        return Result.ok(authService.getCaptcha());
+    }
 
     @Operation(summary = "用户登录")
     @PostMapping("/login")
-    public Result login(
-            @Parameter(description = "用户名") String username,
-            @Parameter(description = "密码") String password) {
-        return Result.ok();
+    public Result<String> login(
+            @Parameter(description = "登录信息") @RequestBody AuthVo authVo) {
+        String jwt =authService.login(authVo);
+        return Result.ok(jwt);
     }
 
     @Operation(summary = "用户登出")
@@ -59,7 +78,9 @@ public class AuthController {
 
     @Operation(summary = "获取当前登录用户信息")
     @GetMapping("/profile")
-    public Result getUserProfile() {
-        return Result.ok();
+    public Result<User> getUserProfile() {
+        LoginUser loginUser = LoginUserHolder.get();
+        User user = userService.getById(loginUser.getUserId());
+        return Result.ok(user);
     }
 }

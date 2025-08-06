@@ -13,7 +13,7 @@ import lombok.Data;
  */
 @TableName(value ="comment")
 @Data
-public class Comment {
+public class Comment extends BaseEntity{
     /**
      * 
      */
@@ -39,26 +39,4 @@ public class Comment {
      * 
      */
     private Long parentId;
-
-    /**
-     * 逻辑删除: 0-未删,1-已删
-     */
-    private Integer deleted;
-
-    /**
-     * 删除时间
-     */
-    private Date deleteTime;
-
-    /**
-     * 
-     */
-    private Date createTime;
-
-    /**
-     * 
-     */
-    private Date updateTime;
-
-
 }

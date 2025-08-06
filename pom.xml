@@ -27,10 +27,16 @@
         <jwt.version>0.11.2</jwt.version>
         <minio.version>8.2.0</minio.version>
         <knife4j.version>4.1.0</knife4j.version>
+        <easycaptcha.version>1.6.2</easycaptcha.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>com.github.whvcse</groupId>
+                <artifactId>easy-captcha</artifactId>
+                <version>${easycaptcha.version}</version>
+            </dependency>
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-boot-starter</artifactId>

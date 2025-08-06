@@ -13,7 +13,7 @@ import lombok.Data;
  */
 @TableName(value ="article_tag")
 @Data
-public class ArticleTag {
+public class ArticleTag extends BaseEntity{
     /**
      * 
      */
