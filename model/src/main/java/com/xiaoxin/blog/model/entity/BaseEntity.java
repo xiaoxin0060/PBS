@@ -1,5 +1,8 @@
 package com.xiaoxin.blog.model.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
+
 import java.util.Date;
 
 public class BaseEntity {
@@ -21,12 +24,14 @@ public class BaseEntity {
      * 创建时间
      * 记录数据首次创建的时间
      */
+    @TableField(fill = FieldFill.INSERT)
     private Date createTime;
 
     /**
      * 更新时间
      * 记录数据最后一次更新的时间
      */
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private Date updateTime;
 
 }

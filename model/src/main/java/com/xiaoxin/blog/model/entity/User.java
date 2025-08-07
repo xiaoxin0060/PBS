@@ -14,25 +14,14 @@ import lombok.Data;
 @TableName(value ="user")
 @Data
 public class User {
-    /**
-     * 
-     */
+
     @TableId(type = IdType.AUTO)
     private Long id;
 
-    /**
-     * 
-     */
     private String username;
 
-    /**
-     * 
-     */
     private String password;
 
-    /**
-     * 
-     */
     private String email;
 
     /**
@@ -50,24 +39,12 @@ public class User {
      */
     private Integer status;
 
-    /**
-     * 
-     */
     private Date createTime;
 
-    /**
-     * 
-     */
     private Date updateTime;
 
-    /**
-     * 创建人ID
-     */
     private Long createBy;
 
-    /**
-     * 更新人ID
-     */
     private Long updateBy;
 
 }
