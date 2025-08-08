@@ -13,17 +13,23 @@ spring:
       database: 0
 
 
+
 #用于打印框架生成的sql语句，便于调试
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      update-strategy: not_empty  # 全局更新策略：只更新非NULL字段
+      # 可选值: ignored(默认)、not_null(非NULL)、not_empty(非空字符串)
 
 minio:
   endpoint: http://192.168.127.100:9000
-  access-key: minioapp
-  secret-key: minioapp
+  access-key: minioadmin
+  secret-key: minioadmin
   bucket-name: blog
 
 springdoc:
   default-flat-param-object: true
 
+#eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVU0VSX0lORk8iLCJleHAiOjE3ODYxODQwMDMsInVzZXJuYW1lIjoidGVzdCIsInVzZXJJZCI6MX0.ow_YMk5vyoRdFynga6qU4qoNSFao-Xr3kxNxMnfSvWc

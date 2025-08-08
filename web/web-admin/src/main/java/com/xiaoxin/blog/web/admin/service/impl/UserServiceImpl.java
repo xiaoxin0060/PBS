@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xiaoxin.blog.model.entity.User;
 import com.xiaoxin.blog.web.admin.mapper.UserMapper;
 import com.xiaoxin.blog.web.admin.service.UserService;
+import com.xiaoxin.blog.web.admin.vo.UserVo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -14,8 +16,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     implements UserService {
+    @Autowired
+    private UserMapper userMapper;
+
 
 }
+
 
 
 

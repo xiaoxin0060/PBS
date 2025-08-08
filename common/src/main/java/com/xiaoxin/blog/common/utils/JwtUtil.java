@@ -55,4 +55,8 @@ public class JwtUtil {
     public static String getRefreshTokenKey(String refreshToken) {
         return parseJwt(refreshToken).get("key", String.class);
     }
+
+    public static void main(String[] args) {
+        System.out.println(creatJwt(1,"test"));
+    }
 }

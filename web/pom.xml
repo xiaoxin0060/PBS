@@ -53,10 +53,6 @@
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>io.minio</groupId>
-            <artifactId>minio</artifactId>
-        </dependency>
 
         <dependency>
             <groupId>com.github.xiaoymin</groupId>

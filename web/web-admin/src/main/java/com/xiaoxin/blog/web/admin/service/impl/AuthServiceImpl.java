@@ -73,6 +73,7 @@ public class AuthServiceImpl extends ServiceImpl<UserMapper, User>
         BeanUtils.copyProperties(userRegistVo,user);
         user.setRole(1);
         user.setStatus(0);
+        user.setAvatar("http://192.168.127.100:9000/blog/20250808/d3e80d4e-7299-43ec-b07d-d1a0a453a0c1-default.jpg");
         userMapper.insert(user);
     }
 

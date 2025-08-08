@@ -23,6 +23,6 @@ public class GlobalExceptionHandler {
         e.printStackTrace();
         // 提取第一个不合法的字段
         String msg = e.getBindingResult().getFieldError().getDefaultMessage();
-        return Result.fail(null,msg); // 根据你的返回值封装
+        return Result.fail(null,msg); // 根据返回值封装
     }
 }

@@ -2,6 +2,7 @@ package com.xiaoxin.blog.web.admin.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.xiaoxin.blog.model.entity.User;
+import com.xiaoxin.blog.web.admin.vo.UserVo;
 
 /**
 * @author 小新
@@ -9,5 +10,6 @@ import com.xiaoxin.blog.model.entity.User;
 * @createDate 2025-08-04 00:14:52
 */
 public interface UserService extends IService<User> {
+
 
 }

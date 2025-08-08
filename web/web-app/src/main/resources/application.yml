@@ -19,8 +19,8 @@ mybatis-plus:
 
 minio:
   endpoint: http://192.168.127.100:9000
-  access-key: minioapp
-  secret-key: minioapp
+  access-key: minioadmin
+  secret-key: minioadmin
   bucket-name: blog
 
 springdoc:

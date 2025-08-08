@@ -55,6 +55,12 @@ public class Knife4jConfiguration {
                 pathsToMatch("/admin/auth/**").
                 build();
     }
+    @Bean
+    public GroupedOpenApi fileAPI() {
+        return GroupedOpenApi.builder().group("文件管理").
+                pathsToMatch("/admin/file/**").
+                build();
+    }
 
 
 }

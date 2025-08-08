@@ -1,11 +1,8 @@
 package com.xiaoxin.blog.web.admin.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.xiaoxin.blog.common.login.LoginUser;
 import com.xiaoxin.blog.common.login.LoginUserHolder;
 import com.xiaoxin.blog.common.result.Result;
-import com.xiaoxin.blog.common.utils.CodeUtil;
 import com.xiaoxin.blog.model.entity.User;
 import com.xiaoxin.blog.web.admin.service.AuthService;
 import com.xiaoxin.blog.web.admin.service.UserService;
@@ -16,7 +13,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Email;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,13 +29,13 @@ public class AuthController {
 
 
     @Operation(summary = "获取图形验证码")
-    @PostMapping("/getCaptcha")
+    @GetMapping("/captcha")
     public Result<CaptchaVo> getCaptcha() {
         return Result.ok(authService.getCaptcha());
     }
 
     @Operation(summary = "获取邮箱验证码")
-    @PostMapping("/getCode")
+    @GetMapping("/email-code")
     public Result getCode(@Parameter(description = "邮箱")@RequestParam("email") String email) {
         authService.getCode(email);
         return Result.ok();
@@ -49,12 +45,12 @@ public class AuthController {
     @PostMapping("/login")
     public Result<Map<String, String>> login(
             @Parameter(description = "登录信息") @RequestBody AuthVo authVo) {
-        Map<String, String> result =authService.login(authVo);
+        Map<String, String> result = authService.login(authVo);
         return Result.ok(result);
     }
 
     @Operation(summary = "用户登出")
-    @PostMapping("/logout")
+    @DeleteMapping("/logout")
     public Result logout() {
         return Result.ok();
     }
@@ -68,27 +64,27 @@ public class AuthController {
     }
 
     @Operation(summary = "刷新Token")
-    @PostMapping("/refreshToken")
+    @PostMapping("/token/refresh")
     public Result<Map<String, String>> refreshToken(@Parameter(description = "刷新Token") @RequestParam("refreshToken") String refreshToken) {
         Map<String, String> result = authService.refreshToken(refreshToken);
         return Result.ok(result);
     }
 
     @Operation(summary = "通过邮箱重置密码")
-    @PostMapping("/resetPasswordByEmail")
+    @PostMapping("/password/reset")
     public Result resetPasswordByEmail(
-            @Parameter(description = "邮箱") String email,
-            @Parameter(description = "验证码") String code,
-            @Parameter(description = "新密码") String newPassword) {
+            @Parameter(description = "邮箱") @RequestParam String email,
+            @Parameter(description = "验证码") @RequestParam String code,
+            @Parameter(description = "新密码") @RequestParam String newPassword) {
         authService.resetPasswordByEmail(email, code, newPassword);
         return Result.ok();
     }
 
     @Operation(summary = "修改密码")
-    @PutMapping("/changePassword")
+    @PutMapping("/password")
     public Result changePassword(
-            @Parameter(description = "旧密码") String oldPassword,
-            @Parameter(description = "新密码") String newPassword) {
+            @Parameter(description = "旧密码") @RequestParam String oldPassword,
+            @Parameter(description = "新密码") @RequestParam String newPassword) {
         authService.changePassword(oldPassword, newPassword);
         return Result.ok();
     }
