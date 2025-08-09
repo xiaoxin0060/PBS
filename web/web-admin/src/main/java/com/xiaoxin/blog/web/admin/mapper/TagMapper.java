@@ -2,7 +2,9 @@ package com.xiaoxin.blog.web.admin.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.xiaoxin.blog.model.entity.Tag;
-import org.apache.ibatis.annotations.Mapper;
+import com.xiaoxin.blog.web.admin.vo.PopularTagsVo;
+
+import java.util.List;
 
 /**
 * @author 小新
@@ -13,6 +15,9 @@ import org.apache.ibatis.annotations.Mapper;
 
 public interface TagMapper extends BaseMapper<Tag> {
 
+    List<PopularTagsVo> getPopularTags(Integer limit);
+
+    void restoreTag(Long id);
 }
 
 

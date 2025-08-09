@@ -2,6 +2,9 @@ package com.xiaoxin.blog.web.admin.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.xiaoxin.blog.model.entity.Tag;
+import com.xiaoxin.blog.web.admin.vo.PopularTagsVo;
+
+import java.util.List;
 
 /**
 * @author 小新
@@ -10,4 +13,9 @@ import com.xiaoxin.blog.model.entity.Tag;
 */
 public interface TagService extends IService<Tag> {
 
+    List<PopularTagsVo> getPopularTags(Integer limit);
+
+    void updatePopularTagsCache();
+
+    void restoreTag(Long id);
 }

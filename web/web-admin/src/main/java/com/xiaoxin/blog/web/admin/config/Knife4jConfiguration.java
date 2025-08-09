@@ -34,7 +34,7 @@ public class Knife4jConfiguration {
     @Bean
     public GroupedOpenApi tagAPI() {
         return GroupedOpenApi.builder().group("标签信息管理").
-                pathsToMatch("/admin/tag/**").
+                pathsToMatch("/admin/tags/**").
                 build();
     }
     @Bean
