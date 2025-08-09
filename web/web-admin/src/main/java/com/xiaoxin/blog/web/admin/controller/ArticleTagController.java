@@ -6,7 +6,7 @@ import com.xiaoxin.blog.model.entity.Article;
 import com.xiaoxin.blog.web.admin.service.ArticleService;
 import com.xiaoxin.blog.web.admin.service.ArticleTagService;
 import com.xiaoxin.blog.web.admin.service.TagService;
-import com.xiaoxin.blog.web.admin.vo.ArticleTagVO;
+import com.xiaoxin.blog.web.admin.vo.ArticleTagVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -37,7 +37,7 @@ public class ArticleTagController {
     public Result<List<Tag>> getTagsByArticleId(
             @Parameter(description = "文章ID") @PathVariable @Min(1) Long articleId) {
         // 实现查询文章关联的所有标签
-        return null;
+        return Result.ok();
     }
 
     @Operation(summary = "查询标签关联的所有文章")
@@ -47,14 +47,14 @@ public class ArticleTagController {
             @Parameter(description = "当前页码") @RequestParam(defaultValue = "1") @Min(1) Long current,
             @Parameter(description = "每页记录数") @RequestParam(defaultValue = "10") @Min(1) Long size) {
         // 实现分页查询标签关联的所有文章
-        return null;
+        return Result.ok();
     }
 
     @Operation(summary = "为文章批量添加标签")
     @PostMapping("/batch")
-    public Result batchAddTags(@RequestBody @Validated ArticleTagVO articleTagVO) {
+    public Result batchAddTags(@RequestBody @Validated ArticleTagVo articleTagVO) {
         // 实现为文章批量添加标签
-        return null;
+        return Result.ok();
     }
 
     @Operation(summary = "移除文章的标签")
@@ -63,7 +63,7 @@ public class ArticleTagController {
             @Parameter(description = "文章ID") @PathVariable @Min(1) Long articleId,
             @Parameter(description = "标签ID") @PathVariable @Min(1) Long tagId) {
         // 实现移除文章的标签
-        return null;
+        return Result.ok();
     }
 
     @Operation(summary = "查询被特定标签标记最多的文章")
@@ -71,7 +71,7 @@ public class ArticleTagController {
     public Result<List<Article>> getPopularArticlesByTags(
             @Parameter(description = "查询数量") @RequestParam(defaultValue = "5") @Min(1) Integer limit) {
         // 实现查询被标记最多的热门文章
-        return null;
+        return Result.ok();
     }
 
     @Operation(summary = "查询被使用最多的标签")
@@ -79,7 +79,7 @@ public class ArticleTagController {
     public Result<List<Tag>> getPopularTags(
             @Parameter(description = "查询数量") @RequestParam(defaultValue = "10") @Min(1) Integer limit) {
         // 实现查询使用最多的热门标签
-        return null;
+        return Result.ok();
     }
 
     @Operation(summary = "恢复已删除的文章标签关联")
@@ -88,6 +88,6 @@ public class ArticleTagController {
             @Parameter(description = "文章ID") @PathVariable @Min(1) Long articleId,
             @Parameter(description = "标签ID") @PathVariable @Min(1) Long tagId) {
         // 实现恢复已删除的文章标签关联
-        return null;
+        return Result.ok();
     }
 }

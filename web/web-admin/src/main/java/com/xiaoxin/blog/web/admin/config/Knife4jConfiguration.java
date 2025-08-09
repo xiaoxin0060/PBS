@@ -40,13 +40,13 @@ public class Knife4jConfiguration {
     @Bean
     public GroupedOpenApi commentAPI() {
         return GroupedOpenApi.builder().group("评论信息管理").
-                pathsToMatch("/admin/comment/**").
+                pathsToMatch("/admin/comments/**").
                 build();
     }
     @Bean
     public GroupedOpenApi categoryAPI() {
         return GroupedOpenApi.builder().group("分类信息管理").
-                pathsToMatch("/admin/category/**").
+                pathsToMatch("/admin/categories/**").
                 build();
     }
     @Bean

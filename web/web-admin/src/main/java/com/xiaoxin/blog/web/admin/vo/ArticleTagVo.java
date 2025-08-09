@@ -8,7 +8,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class ArticleTagVO {
+public class ArticleTagVo {
     @NotNull(message = "文章ID不能为空")
     @Min(value = 1, message = "文章ID必须大于0")
     private Long articleId;
