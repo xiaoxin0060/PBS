@@ -3,13 +3,14 @@ package com.xiaoxin.blog.web.admin.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.xiaoxin.blog.common.result.Result;
 import com.xiaoxin.blog.model.entity.Article;
+import com.xiaoxin.blog.model.entity.Tag;
 import com.xiaoxin.blog.web.admin.service.ArticleService;
 import com.xiaoxin.blog.web.admin.service.ArticleTagService;
 import com.xiaoxin.blog.web.admin.service.TagService;
 import com.xiaoxin.blog.web.admin.vo.ArticleTagVo;
+import com.xiaoxin.blog.web.admin.vo.TagVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Min;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -19,7 +20,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/admin/articleTag")
-@Tag(name = "文章标签关联管理", description = "文章与标签的关联管理接口")
+@io.swagger.v3.oas.annotations.tags.Tag(name = "文章标签关联管理", description = "文章与标签的关联管理接口")
 @Validated
 public class ArticleTagController {
 
@@ -34,10 +35,11 @@ public class ArticleTagController {
 
     @Operation(summary = "查询文章关联的所有标签")
     @GetMapping("/article/{articleId}")
-    public Result<List<Tag>> getTagsByArticleId(
+    public Result<List<TagVo>> getTagsByArticleId(
             @Parameter(description = "文章ID") @PathVariable @Min(1) Long articleId) {
         // 实现查询文章关联的所有标签
-        return Result.ok();
+        List<TagVo> result=articleTagService.getTagsByArticleId(articleId);
+        return Result.ok(result);
     }
 
     @Operation(summary = "查询标签关联的所有文章")

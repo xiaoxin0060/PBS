@@ -21,4 +21,18 @@
         limit #{limit}
     </select>
 
+    <select id="listByArticleIds" resultType="com.xiaoxin.blog.web.admin.vo.TagVo">
+        SELECT at.article_id,
+        t.id   AS id,
+        t.name AS name
+        FROM article_tag at
+        JOIN tag t ON t.id = at.tag_id AND t.deleted = 0
+        WHERE at.deleted = 0
+        AND at.article_id IN
+        <foreach collection="articleIds" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </select>
+
+
 </mapper>

@@ -2,6 +2,9 @@ package com.xiaoxin.blog.web.admin.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.xiaoxin.blog.model.entity.ArticleTag;
+import com.xiaoxin.blog.web.admin.vo.TagVo;
+
+import java.util.List;
 
 /**
 * @author 小新
@@ -10,4 +13,5 @@ import com.xiaoxin.blog.model.entity.ArticleTag;
 */
 public interface ArticleTagService extends IService<ArticleTag> {
 
+    List<TagVo> getTagsByArticleId(Long articleId);
 }

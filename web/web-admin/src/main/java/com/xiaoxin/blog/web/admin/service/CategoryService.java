@@ -10,4 +10,5 @@ import com.xiaoxin.blog.model.entity.Category;
 */
 public interface CategoryService extends IService<Category> {
 
+    void restoreCategory(Long id);
 }

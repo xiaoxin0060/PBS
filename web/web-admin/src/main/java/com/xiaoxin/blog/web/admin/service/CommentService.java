@@ -10,4 +10,5 @@ import com.xiaoxin.blog.model.entity.Comment;
 */
 public interface CommentService extends IService<Comment> {
 
+    void restoreComment(Long id);
 }

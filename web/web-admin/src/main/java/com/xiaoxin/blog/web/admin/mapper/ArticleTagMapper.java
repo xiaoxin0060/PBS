@@ -2,7 +2,9 @@ package com.xiaoxin.blog.web.admin.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.xiaoxin.blog.model.entity.ArticleTag;
-import org.apache.ibatis.annotations.Mapper;
+import com.xiaoxin.blog.web.admin.vo.TagVo;
+
+import java.util.List;
 
 /**
 * @author 小新
@@ -13,6 +15,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 public interface ArticleTagMapper extends BaseMapper<ArticleTag> {
 
+    List<TagVo> getTagsByArticleId(Long articleId);
 }
 
 

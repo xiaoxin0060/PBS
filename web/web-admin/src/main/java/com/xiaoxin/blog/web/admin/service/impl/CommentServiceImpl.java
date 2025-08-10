@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xiaoxin.blog.model.entity.Comment;
 import com.xiaoxin.blog.web.admin.mapper.CommentMapper;
 import com.xiaoxin.blog.web.admin.service.CommentService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -14,7 +15,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment>
     implements CommentService {
+    @Autowired
+    private CommentMapper commentMapper;
 
+    @Override
+    public void restoreComment(Long id) {
+        commentMapper.restoreComment(id);
+    }
 }
 
 

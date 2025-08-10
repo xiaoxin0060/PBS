@@ -1,13 +1,18 @@
 package com.xiaoxin.blog.web.admin.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xiaoxin.blog.common.result.Result;
 import com.xiaoxin.blog.model.entity.Article;
+import com.xiaoxin.blog.web.admin.service.ArticleService;
 import com.xiaoxin.blog.web.admin.vo.ArticleDetailVo;
+import com.xiaoxin.blog.web.admin.vo.ArticleQueryVo;
+import com.xiaoxin.blog.web.admin.vo.ArticleVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,18 +21,19 @@ import java.util.List;
 @RequestMapping("/admin/articles")  // 复数形式
 @Tag(name = "文章信息管理", description = "文章的增删改查、发布、置顶、标签关联等操作")
 public class ArticleController {
+    @Autowired
+    private ArticleService articleService;
 
     @Operation(summary = "分页获取文章列表")
-    @GetMapping
-    public Result<IPage<Article>> getArticles(
+    @PostMapping("/page")
+    public Result<IPage<ArticleVo>> getArticles(
             @Parameter(description = "页码") @RequestParam(defaultValue = "1") Integer pageNum,
             @Parameter(description = "每页条数") @RequestParam(defaultValue = "10") Integer pageSize,
-            @Parameter(description = "文章标题") @RequestParam(required = false) String title,
-            @Parameter(description = "分类ID") @RequestParam(required = false) Long categoryId,
-            @Parameter(description = "标签ID") @RequestParam(required = false) Long tagId,
-            @Parameter(description = "状态(0-草稿,1-已发布)") @RequestParam(required = false) Integer status) {
-        // 分页获取文章列表，支持多条件筛选
-        return Result.ok();
+            @Parameter(description = "文章查询条件") @RequestBody(required = false) ArticleQueryVo articleQueryVo) {
+        // 分页获取文章列表
+        IPage<ArticleVo> page = new Page<>(pageNum,pageSize);
+        IPage<ArticleVo> result= articleService.getArticles(page,articleQueryVo);
+        return Result.ok(result);
     }
 
     @Operation(summary = "获取文章详情")

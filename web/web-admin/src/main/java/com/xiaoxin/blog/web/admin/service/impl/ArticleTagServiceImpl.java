@@ -4,7 +4,11 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xiaoxin.blog.model.entity.ArticleTag;
 import com.xiaoxin.blog.web.admin.mapper.ArticleTagMapper;
 import com.xiaoxin.blog.web.admin.service.ArticleTagService;
+import com.xiaoxin.blog.web.admin.vo.TagVo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
 * @author 小新
@@ -14,7 +18,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class ArticleTagServiceImpl extends ServiceImpl<ArticleTagMapper, ArticleTag>
     implements ArticleTagService {
+    @Autowired
+    private ArticleTagMapper articleTagMapper;
 
+    @Override
+    public List<TagVo> getTagsByArticleId(Long articleId) {
+        return articleTagMapper.getTagsByArticleId(articleId);
+    }
 }
 
 

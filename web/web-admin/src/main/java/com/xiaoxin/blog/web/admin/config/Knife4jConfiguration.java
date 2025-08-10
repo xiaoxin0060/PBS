@@ -27,7 +27,7 @@ public class Knife4jConfiguration {
     @Bean
     public GroupedOpenApi articleAPI() {
         return GroupedOpenApi.builder().group("文章信息管理").
-                pathsToMatch("/admin/article/**").
+                pathsToMatch("/admin/articles/**").
                 build();
     }
 

@@ -2,6 +2,7 @@ package com.xiaoxin.blog.web.admin.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xiaoxin.blog.model.entity.Tag;
+import com.xiaoxin.blog.web.admin.mapper.ArticleTagMapper;
 import com.xiaoxin.blog.web.admin.mapper.TagMapper;
 import com.xiaoxin.blog.web.admin.service.TagService;
 import com.xiaoxin.blog.web.admin.vo.PopularTagsVo;
@@ -33,6 +34,9 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag>
 
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
+
+    @Autowired
+    private ArticleTagMapper articleTagMapper;
 
     @Override
     public List<PopularTagsVo> getPopularTags(Integer limit) {
@@ -68,6 +72,7 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag>
         tagMapper.restoreTag(id);
     }
 
+
     @Async
     public void asyncUpdateRedisCache(List<PopularTagsVo> popularTags) {
         if(popularTags!=null&&!popularTags.isEmpty())
@@ -79,6 +84,7 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag>
             redisTemplate.opsForZSet().add(POPULAR_TAGS_KEY, tuples);
         }
     }
+
 }
 
 

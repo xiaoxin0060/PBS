@@ -2,7 +2,6 @@ package com.xiaoxin.blog.web.admin.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.xiaoxin.blog.model.entity.Comment;
-import org.apache.ibatis.annotations.Mapper;
 
 /**
 * @author 小新
@@ -13,6 +12,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 public interface CommentMapper extends BaseMapper<Comment> {
 
+    void restoreComment(Long id);
 }
 
 

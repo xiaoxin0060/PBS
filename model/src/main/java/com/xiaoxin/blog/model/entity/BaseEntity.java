@@ -21,6 +21,7 @@ public class BaseEntity {
      * 删除时间
      * 记录数据被删除的具体时间
      */
+    @TableField(fill = FieldFill.UPDATE)
     private Date deleteTime;
 
     /**

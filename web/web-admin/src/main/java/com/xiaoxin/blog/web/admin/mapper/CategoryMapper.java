@@ -2,7 +2,6 @@ package com.xiaoxin.blog.web.admin.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.xiaoxin.blog.model.entity.Category;
-import org.apache.ibatis.annotations.Mapper;
 
 /**
 * @author 小新
@@ -13,6 +12,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 public interface CategoryMapper extends BaseMapper<Category> {
 
+    void restoreCategory(Long id);
 }
 
 

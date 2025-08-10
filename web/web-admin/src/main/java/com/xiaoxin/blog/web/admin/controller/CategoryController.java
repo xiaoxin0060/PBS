@@ -1,11 +1,14 @@
 package com.xiaoxin.blog.web.admin.controller;
 
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.xiaoxin.blog.common.result.Result;
 import com.xiaoxin.blog.model.entity.Category;
+import com.xiaoxin.blog.web.admin.service.CategoryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,12 +17,15 @@ import java.util.List;
 @RequestMapping("/admin/categories")  // 使用复数名词
 @Tag(name = "分类信息管理", description = "分类的增删改查、排序等接口")
 public class CategoryController {
+    @Autowired
+    private CategoryService categoryService;
 
     @Operation(summary = "获取所有分类")
     @GetMapping
     public Result<List<Category>> getAllCategories() {
         // 获取所有分类列表（自动过滤deleted=0）
-        return Result.ok();
+        List<Category> list = categoryService.list();
+        return Result.ok(list);
     }
 
     @Operation(summary = "根据ID获取分类")
@@ -27,7 +33,8 @@ public class CategoryController {
     public Result<Category> getCategoryById(
             @Parameter(description = "分类ID") @PathVariable Long id) {
         // 根据ID获取分类
-        return Result.ok();
+        Category category = categoryService.getById(id);
+        return Result.ok(category);
     }
 
     @Operation(summary = "创建分类")
@@ -35,6 +42,7 @@ public class CategoryController {
     public Result<Category> createCategory(
             @Parameter(description = "分类信息") @RequestBody @Valid Category category) {
         // 创建新分类
+        categoryService.save(category);
         return Result.ok();
     }
 
@@ -44,6 +52,8 @@ public class CategoryController {
             @Parameter(description = "分类ID") @PathVariable Long id,
             @Parameter(description = "分类信息") @RequestBody @Valid Category category) {
         // 更新分类
+        category.setId( id);
+        categoryService.updateById(category);
         return Result.ok();
     }
 
@@ -53,6 +63,9 @@ public class CategoryController {
             @Parameter(description = "分类ID") @PathVariable Long id,
             @Parameter(description = "排序值") @RequestParam Integer sort) {
         // 更新分类排序值
+        LambdaUpdateWrapper<Category> updateWrapper = new LambdaUpdateWrapper<Category>().eq(Category::getId, id)
+                .set(Category::getSort, sort);
+        categoryService.update(updateWrapper);
         return Result.ok();
     }
 
@@ -61,6 +74,9 @@ public class CategoryController {
     public Result deleteCategory(
             @Parameter(description = "分类ID") @PathVariable Long id) {
         // 逻辑删除分类（设置deleted=1）
+        LambdaUpdateWrapper<Category> updateWrapper = new LambdaUpdateWrapper<Category>().eq(Category::getId, id)
+                .set(Category::getDeleted, 1);
+        categoryService.update(updateWrapper);
         return Result.ok();
     }
 
@@ -69,6 +85,7 @@ public class CategoryController {
     public Result restoreCategory(
             @Parameter(description = "分类ID") @PathVariable Long id) {
         // 恢复已删除的分类（设置deleted=0）
+        categoryService.restoreCategory(id);
         return Result.ok();
     }
 }

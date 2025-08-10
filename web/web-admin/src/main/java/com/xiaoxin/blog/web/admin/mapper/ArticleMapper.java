@@ -1,8 +1,10 @@
 package com.xiaoxin.blog.web.admin.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.xiaoxin.blog.model.entity.Article;
-import org.apache.ibatis.annotations.Mapper;
+import com.xiaoxin.blog.web.admin.vo.ArticleQueryVo;
+import com.xiaoxin.blog.web.admin.vo.ArticleVo;
 
 /**
 * @author 小新
@@ -13,6 +15,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 public interface ArticleMapper extends BaseMapper<Article> {
 
+    IPage<ArticleVo> getArticles(IPage<ArticleVo> page, ArticleQueryVo articleQueryVo);
 }
 
 

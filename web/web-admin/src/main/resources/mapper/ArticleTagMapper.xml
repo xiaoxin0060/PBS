@@ -4,4 +4,14 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xiaoxin.blog.web.admin.mapper.ArticleTagMapper">
 
+    <select id="getTagsByArticleId" resultType="com.xiaoxin.blog.web.admin.vo.TagVo">
+        select
+            at.article_id,
+            t.id as id,
+            t.name as name
+        from article_tag at
+        left join tag t on t.id = at.tag_id and t.deleted = 0
+        where at.deleted = 0
+        and at.article_id = #{articleId}
+    </select>
 </mapper>

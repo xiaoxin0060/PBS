@@ -3,6 +3,7 @@ package com.xiaoxin.blog.web.admin.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.xiaoxin.blog.model.entity.Tag;
 import com.xiaoxin.blog.web.admin.vo.PopularTagsVo;
+import com.xiaoxin.blog.web.admin.vo.TagVo;
 
 import java.util.List;
 
@@ -15,9 +16,14 @@ import java.util.List;
 
 public interface TagMapper extends BaseMapper<Tag> {
 
+
+
     List<PopularTagsVo> getPopularTags(Integer limit);
 
     void restoreTag(Long id);
+
+    // 根据文章id查询标签
+    List<TagVo> listByArticleIds(List<Long> articleIds);
 }
 
 

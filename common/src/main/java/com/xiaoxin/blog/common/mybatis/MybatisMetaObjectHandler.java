@@ -15,5 +15,11 @@ public class MybatisMetaObjectHandler implements MetaObjectHandler {
     @Override
     public void updateFill(MetaObject metaObject) {
         this.strictUpdateFill(metaObject, "updateTime", Date.class, new Date());
+        if (metaObject.hasGetter("deleted")) {
+            Object deleted = getFieldValByName("deleted", metaObject);
+            if (deleted != null && deleted.equals(1)) {
+                this.strictUpdateFill(metaObject, "deleteTime", Date.class, new Date());
+            }
+        }
     }
 }

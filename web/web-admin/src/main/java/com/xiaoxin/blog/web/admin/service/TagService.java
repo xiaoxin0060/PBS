@@ -18,4 +18,7 @@ public interface TagService extends IService<Tag> {
     void updatePopularTagsCache();
 
     void restoreTag(Long id);
+
+
+
 }

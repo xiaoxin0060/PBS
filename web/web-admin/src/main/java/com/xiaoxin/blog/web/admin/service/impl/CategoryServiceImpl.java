@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xiaoxin.blog.model.entity.Category;
 import com.xiaoxin.blog.web.admin.mapper.CategoryMapper;
 import com.xiaoxin.blog.web.admin.service.CategoryService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -14,7 +15,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category>
     implements CategoryService {
+    @Autowired
+    private CategoryMapper categoryMapper;
 
+    @Override
+    public void restoreCategory(Long id) {
+        categoryMapper.restoreCategory(id);
+    }
 }
 
 
