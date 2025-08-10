@@ -13,6 +13,7 @@ public enum ResultCodeEnum {
     ILLEGAL_REQUEST(205, "非法请求"),
     REPEAT_SUBMIT(206, "重复提交"),
     DELETE_ERROR(207, "请先删除子集"),
+
     ADMIN_ACCOUNT_EXIST_ERROR(301, "账号已存在"),
     ADMIN_CAPTCHA_CODE_ERROR(302, "验证码错误"),
     ADMIN_CAPTCHA_CODE_EXPIRED(303, "验证码已过期"),
@@ -23,6 +24,7 @@ public enum ResultCodeEnum {
     ADMIN_ACCOUNT_DISABLED_ERROR(308, "该用户已被禁用"),
     ADMIN_ACCESS_FORBIDDEN(309, "无访问权限"),
     ADMIN_PASSWORD_ERROR(310, "密码错误"),
+
     APP_LOGIN_AUTH(501, "未登陆"),
     APP_LOGIN_PHONE_EMPTY(502, "手机号码为空"),
     APP_LOGIN_CODE_EMPTY(503, "验证码为空"),
@@ -30,8 +32,11 @@ public enum ResultCodeEnum {
     APP_LOGIN_CODE_EXPIRED(505, "验证码已过期"),
     APP_LOGIN_CODE_ERROR(506, "验证码错误"),
     APP_ACCOUNT_DISABLED_ERROR(507, "该用户已被禁用"),
+
     TOKEN_EXPIRED(601, "token过期"),
-    TOKEN_INVALID(602, "token非法");
+    TOKEN_INVALID(602, "token非法"),
+
+    ARTICLE_NOT_EXIST(70,"文章不存在" );
 
 
     private final Integer code;

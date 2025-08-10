@@ -12,8 +12,6 @@ spring:
       port: 6379
       database: 0
 
-
-
 #用于打印框架生成的sql语句，便于调试
 mybatis-plus:
   configuration:
@@ -32,5 +30,6 @@ minio:
 
 springdoc:
   default-flat-param-object: true
+
 
 #eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVU0VSX0lORk8iLCJleHAiOjE3ODYxODQwMDMsInVzZXJuYW1lIjoidGVzdCIsInVzZXJJZCI6MX0.ow_YMk5vyoRdFynga6qU4qoNSFao-Xr3kxNxMnfSvWc

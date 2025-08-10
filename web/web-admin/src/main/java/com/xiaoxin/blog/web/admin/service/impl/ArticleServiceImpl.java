@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.xiaoxin.blog.common.exception.BlogException;
+import com.xiaoxin.blog.common.result.ResultCodeEnum;
 import com.xiaoxin.blog.model.entity.Article;
 import com.xiaoxin.blog.model.entity.ArticleTag;
 import com.xiaoxin.blog.model.entity.Category;
@@ -14,10 +16,7 @@ import com.xiaoxin.blog.web.admin.mapper.CategoryMapper;
 import com.xiaoxin.blog.web.admin.mapper.TagMapper;
 import com.xiaoxin.blog.web.admin.service.ArticleService;
 import com.xiaoxin.blog.web.admin.service.TagService;
-import com.xiaoxin.blog.web.admin.vo.ArticleQueryVo;
-import com.xiaoxin.blog.web.admin.vo.ArticleVo;
-import com.xiaoxin.blog.web.admin.vo.CategoryVo;
-import com.xiaoxin.blog.web.admin.vo.TagVo;
+import com.xiaoxin.blog.web.admin.vo.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -76,6 +75,19 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article>
         Page<ArticleVo> voPage = new Page<>(articlePage.getCurrent(),articlePage.getSize(),articlePage.getTotal());
         voPage.setRecords(articleVoList);
         return voPage;
+    }
+
+    @Override
+    public ArticleDetailVo getArticleById(Long id) {
+        Article article = articleMapper.selectById(id);
+        if (article == null) throw new BlogException(ResultCodeEnum.ARTICLE_NOT_EXIST);
+        List<TagVo> tags = articleTagMapper.getTagsByArticleId(id);
+        ArticleDetailVo articleDetailVo = new ArticleDetailVo();
+        BeanUtils.copyProperties(article, articleDetailVo);
+        articleDetailVo.setTags(tags);
+        Category category = categoryMapper.selectById(article.getCategoryId());
+        articleDetailVo.setCategory(new CategoryVo(category.getId(), category.getName()));
+        return articleDetailVo;
     }
 
     private LambdaQueryWrapper<Article> buildWrapper(ArticleQueryVo queryVo) {

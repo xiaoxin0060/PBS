@@ -5,16 +5,27 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xiaoxin.blog.common.result.Result;
 import com.xiaoxin.blog.model.entity.Article;
 import com.xiaoxin.blog.web.admin.service.ArticleService;
+import com.xiaoxin.blog.web.admin.service.FileService;
 import com.xiaoxin.blog.web.admin.vo.ArticleDetailVo;
 import com.xiaoxin.blog.web.admin.vo.ArticleQueryVo;
 import com.xiaoxin.blog.web.admin.vo.ArticleVo;
+import com.xiaoxin.blog.web.admin.vo.CreatArticleVo;
+import io.minio.errors.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.SchemaProperty;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 @RestController
@@ -23,6 +34,8 @@ import java.util.List;
 public class ArticleController {
     @Autowired
     private ArticleService articleService;
+    @Autowired
+    private FileService fileService;
 
     @Operation(summary = "分页获取文章列表")
     @PostMapping("/page")
@@ -41,15 +54,33 @@ public class ArticleController {
     public Result<ArticleDetailVo> getArticleById(
             @Parameter(description = "文章ID") @PathVariable Long id) {
         // 获取文章详情，包括内容、标签等信息
-        return Result.ok();
+        ArticleDetailVo result = articleService.getArticleById(id);
+        return Result.ok(result);
     }
 
     @Operation(summary = "创建文章")
-    @PostMapping
+    @io.swagger.v3.oas.annotations.parameters.RequestBody(
+            content = @Content(
+                    mediaType = "multipart/form-data",
+                    schemaProperties = {
+                            @SchemaProperty(name = "title", schema = @Schema(type = "string", description = "标题")),
+                            @SchemaProperty(name = "content", schema = @Schema(type = "string", description = "内容")),
+                            @SchemaProperty(name = "categoryId", schema = @Schema(type = "integer", description = "分类ID")),
+                            @SchemaProperty(name = "userId", schema = @Schema(type = "integer", description = "用户ID")),
+                            @SchemaProperty(name = "coverImage", schema = @Schema(type = "string", format = "binary", description = "封面图片"))
+                    }
+            )
+    )
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public Result<Article> createArticle(
-            @Parameter(description = "文章信息") @RequestBody @Valid Article article) {
+            @Parameter(description = "文章信息") @ModelAttribute @Valid CreatArticleVo creatArticleVo) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
         // 创建文章
-        return Result.ok();
+        Article article = new Article();
+        String url = fileService.uploadFile(creatArticleVo.getCoverImage());
+        BeanUtils.copyProperties(creatArticleVo, article);
+        article.setCoverImage(url);
+        articleService.save(article);
+        return Result.ok(article);
     }
 
     @Operation(summary = "更新文章")

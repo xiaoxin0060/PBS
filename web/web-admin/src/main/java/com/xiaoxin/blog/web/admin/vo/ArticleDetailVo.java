@@ -1,4 +1,8 @@
 package com.xiaoxin.blog.web.admin.vo;
 
-public class ArticleDetailVo {
+import lombok.Data;
+
+@Data
+public class ArticleDetailVo extends ArticleVo{
+    private String content;
 }
