@@ -7,6 +7,7 @@ import com.xiaoxin.blog.web.admin.vo.PopularArticleVo;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 /**
 * @author 小新
@@ -21,6 +22,8 @@ public interface ArticleMapper extends BaseMapper<Article> {
 
 
     List<PopularArticleVo> getPopularArticles(PopularType type, LocalDateTime startTime, Integer limit);
+
+    Map<Long,List<String>> getTagsByArticleIds(List<Long> articleIds);
 }
 
 

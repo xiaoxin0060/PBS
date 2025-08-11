@@ -18,13 +18,16 @@ import com.xiaoxin.blog.web.admin.mapper.TagMapper;
 import com.xiaoxin.blog.web.admin.service.ArticleService;
 import com.xiaoxin.blog.web.admin.service.TagService;
 import com.xiaoxin.blog.web.admin.vo.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 /**
@@ -32,7 +35,7 @@ import java.util.stream.Collectors;
  * @description 针对表【article(文章表)】的数据库操作Service实现
  * @createDate 2025-08-04 00:14:52
  */
-
+@Slf4j
 @Service
 public class ArticleServiceImpl extends ServiceImpl<ArticleMapper,Article> implements ArticleService{
     @Autowired
@@ -136,11 +139,27 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper,Article> imple
     @Override
     public List<PopularArticleVo> getPopularArticles(PopularType type, Integer days, Integer limit)
     {
+        //构建缓存key
+        String cacheKey = String.format("popular:articles:%s:%d:%d", type.name(), days, limit);
+
+        //尝试从缓存获取
+        List<PopularArticleVo> cached = (List<PopularArticleVo>) redisTemplate.opsForValue().get(cacheKey);
+        if (cached != null) {
+            return cached;
+        }
         LocalDateTime startTime = LocalDateTime.now().minusDays(days);
         List<PopularArticleVo> articles = articleMapper.getPopularArticles(type, startTime, limit);
+        // 异步存储到Redis
+        CompletableFuture.runAsync(() -> {
+            try {
+                redisTemplate.opsForValue().set(cacheKey, articles, Duration.ofMinutes(15));
+                log.debug("异步缓存成功: {}", cacheKey);
+            } catch (Exception e) {
+                log.warn("异步缓存失败: {}", cacheKey, e);
+            }
+        });
         return articles;
     }
-
     private LambdaQueryWrapper<Article> buildWrapper(ArticleQueryVo queryVo)
     {
         LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<>();

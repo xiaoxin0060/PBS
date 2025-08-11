@@ -6,7 +6,29 @@
     <update id="restoreArticle">
         update article set deleted = 0 where id = #{id}
     </update>
-    <select id="getPopularArticles" resultType="com.xiaoxin.blog.web.admin.vo.PopularArticleVo">
+    <resultMap id="PopularArticleResultMap" type="com.xiaoxin.blog.web.admin.vo.PopularArticleVo">
+        <id property="id" column="id"/>
+        <result property="title" column="title"/>
+        <result property="coverImage" column="coverImage"/>
+        <result property="viewCount" column="viewCount"/>
+        <result property="likeCount" column="likeCount"/>
+        <result property="commentCount" column="commentCount"/>
+        <result property="tagCount" column="tagCount"/>
+        <result property="createTime" column="createTime"/>
+        <result property="categoryName" column="categoryName"/>
+
+        <!-- 自定义tagNames映射 -->
+        <result property="tagNames" column="tagNames"
+                typeHandler="com.xiaoxin.blog.web.admin.handler.StringToListTypeHandler"/>
+
+        <!-- 嵌套对象映射 -->
+        <association property="author" javaType="com.xiaoxin.blog.web.admin.vo.PopularArticleVo$AuthorVo">
+            <result property="id" column="author.id"/>
+            <result property="username" column="author.username"/>
+            <result property="avatar" column="author.avatar"/>
+        </association>
+    </resultMap>
+    <select id="getPopularArticles" resultMap="PopularArticleResultMap">
         SELECT
         a.id,
         a.title,
@@ -61,4 +83,5 @@
         </choose>
         LIMIT #{limit}
     </select>
+
 </mapper>
