@@ -45,4 +45,9 @@ public class Result<T> {
         result.setMessage(message);
         return result;
     }
+
+    public static Result fail(String msg)
+    {
+        return fail(ResultCodeEnum.FAIL.getCode(), msg);
+    }
 }

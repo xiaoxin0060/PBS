@@ -61,6 +61,12 @@ public class Knife4jConfiguration {
                 pathsToMatch("/admin/file/**").
                 build();
     }
+    @Bean
+    public GroupedOpenApi articleTagAPI() {
+        return GroupedOpenApi.builder().group("文章标签关系管理").
+                pathsToMatch("/admin/articleTag/**").
+                                     build();
+    }
 
 
 }

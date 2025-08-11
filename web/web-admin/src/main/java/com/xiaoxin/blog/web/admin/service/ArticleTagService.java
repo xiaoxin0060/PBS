@@ -14,4 +14,8 @@ import java.util.List;
 public interface ArticleTagService extends IService<ArticleTag> {
 
     List<TagVo> getTagsByArticleId(Long articleId);
+
+    void batchAddTags(Long articleId, List<Long> tagIds);
+
+    void restoreArticleTag(Long articleId, Long tagId);
 }

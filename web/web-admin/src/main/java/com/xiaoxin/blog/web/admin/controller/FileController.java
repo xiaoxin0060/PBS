@@ -19,13 +19,15 @@ import java.security.NoSuchAlgorithmException;
 @Tag(name = "文件管理")
 @RequestMapping("/admin/file")
 @RestController
-public class FileController {
+public class FileController{
     @Autowired
     private FileService service;
 
     @Operation(summary = "上传文件")
     @PostMapping("/upload")
-    public Result<String> uploadFile(@RequestParam MultipartFile  file) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
+    public Result<String> uploadFile(@RequestParam
+                                     MultipartFile file) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException
+    {
         String url = service.uploadFile(file);
         return Result.ok(url);
     }

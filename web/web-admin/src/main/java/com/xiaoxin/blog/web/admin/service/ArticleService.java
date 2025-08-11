@@ -3,9 +3,11 @@ package com.xiaoxin.blog.web.admin.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.xiaoxin.blog.model.entity.Article;
+import com.xiaoxin.blog.model.enums.PopularType;
 import com.xiaoxin.blog.web.admin.vo.ArticleDetailVo;
 import com.xiaoxin.blog.web.admin.vo.ArticleQueryVo;
 import com.xiaoxin.blog.web.admin.vo.ArticleVo;
+import com.xiaoxin.blog.web.admin.vo.PopularArticleVo;
 
 import java.util.List;
 
@@ -25,4 +27,6 @@ public interface ArticleService extends IService<Article> {
     void addTagsToArticle(Long id, List<Long> tagIds);
 
     void removeTagsFromArticle(Long id, List<Long> tagIds);
+
+    List<PopularArticleVo> getPopularArticles(PopularType type, Integer days, Integer limit);
 }

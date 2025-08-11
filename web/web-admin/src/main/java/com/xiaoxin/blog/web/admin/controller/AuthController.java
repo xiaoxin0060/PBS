@@ -6,12 +6,12 @@ import com.xiaoxin.blog.common.result.Result;
 import com.xiaoxin.blog.model.entity.User;
 import com.xiaoxin.blog.web.admin.service.AuthService;
 import com.xiaoxin.blog.web.admin.service.UserService;
-import com.xiaoxin.blog.web.admin.vo.CaptchaVo;
 import com.xiaoxin.blog.web.admin.vo.AuthVo;
+import com.xiaoxin.blog.web.admin.vo.CaptchaVo;
 import com.xiaoxin.blog.web.admin.vo.UserRegistVo;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +21,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/admin/auth")
 @Tag(name = "登录认证管理", description = "登录认证、注册、修改密码等接口")
-public class AuthController {
+public class AuthController{
     @Autowired
     private AuthService authService;
     @Autowired
@@ -30,43 +30,48 @@ public class AuthController {
 
     @Operation(summary = "获取图形验证码")
     @GetMapping("/captcha")
-    public Result<CaptchaVo> getCaptcha() {
+    public Result<CaptchaVo> getCaptcha()
+    {
         return Result.ok(authService.getCaptcha());
     }
 
     @Operation(summary = "获取邮箱验证码")
     @GetMapping("/email-code")
-    public Result getCode(@Parameter(description = "邮箱")@RequestParam("email") String email) {
+    public Result getCode(@Parameter(description = "邮箱") @RequestParam("email") String email)
+    {
         authService.getCode(email);
         return Result.ok();
     }
 
     @Operation(summary = "用户登录")
     @PostMapping("/login")
-    public Result<Map<String, String>> login(
-            @Parameter(description = "登录信息") @RequestBody AuthVo authVo) {
-        Map<String, String> result = authService.login(authVo);
+    public Result<Map<String,String>> login(@Parameter(description = "登录信息") @RequestBody AuthVo authVo)
+    {
+        Map<String,String> result = authService.login(authVo);
         return Result.ok(result);
     }
 
     @Operation(summary = "用户登出")
     @DeleteMapping("/logout")
-    public Result logout() {
+    public Result logout()
+    {
         return Result.ok();
     }
 
     @Operation(summary = "用户注册")
     @PostMapping("/register")
-    public Result register(
-            @Parameter(description = "用户注册信息") @RequestBody @Valid UserRegistVo userRegistVo) {
+    public Result register(@Parameter(description = "用户注册信息") @RequestBody @Valid UserRegistVo userRegistVo)
+    {
         authService.register(userRegistVo);
         return Result.ok();
     }
 
     @Operation(summary = "刷新Token")
     @PostMapping("/token/refresh")
-    public Result<Map<String, String>> refreshToken(@Parameter(description = "刷新Token") @RequestParam("refreshToken") String refreshToken) {
-        Map<String, String> result = authService.refreshToken(refreshToken);
+    public Result<Map<String,String>> refreshToken(
+            @Parameter(description = "刷新Token") @RequestParam("refreshToken") String refreshToken)
+    {
+        Map<String,String> result = authService.refreshToken(refreshToken);
         return Result.ok(result);
     }
 
@@ -75,7 +80,8 @@ public class AuthController {
     public Result resetPasswordByEmail(
             @Parameter(description = "邮箱") @RequestParam String email,
             @Parameter(description = "验证码") @RequestParam String code,
-            @Parameter(description = "新密码") @RequestParam String newPassword) {
+            @Parameter(description = "新密码") @RequestParam String newPassword)
+    {
         authService.resetPasswordByEmail(email, code, newPassword);
         return Result.ok();
     }
@@ -84,14 +90,16 @@ public class AuthController {
     @PutMapping("/password")
     public Result changePassword(
             @Parameter(description = "旧密码") @RequestParam String oldPassword,
-            @Parameter(description = "新密码") @RequestParam String newPassword) {
+            @Parameter(description = "新密码") @RequestParam String newPassword)
+    {
         authService.changePassword(oldPassword, newPassword);
         return Result.ok();
     }
 
     @Operation(summary = "获取当前登录用户信息")
     @GetMapping("/profile")
-    public Result<User> getUserProfile() {
+    public Result<User> getUserProfile()
+    {
         LoginUser loginUser = LoginUserHolder.get();
         User user = userService.getById(loginUser.getUserId());
         return Result.ok(user);

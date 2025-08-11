@@ -16,6 +16,10 @@ import java.util.List;
 public interface ArticleTagMapper extends BaseMapper<ArticleTag> {
 
     List<TagVo> getTagsByArticleId(Long articleId);
+
+    void batchAddTags(Long articleId, List<Long> tagIds);
+
+    void restoreArticleTag(Long articleId, Long tagId);
 }
 
 

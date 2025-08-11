@@ -1,4 +1,3 @@
-
 package com.xiaoxin.blog.web.admin.controller;
 
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
@@ -11,9 +10,9 @@ import com.xiaoxin.blog.model.entity.User;
 import com.xiaoxin.blog.web.admin.service.FileService;
 import com.xiaoxin.blog.web.admin.service.UserService;
 import io.minio.errors.*;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -30,7 +29,7 @@ import java.security.NoSuchAlgorithmException;
 @RequestMapping("/admin/user")
 @Tag(name = "用户信息管理", description = "用户的增删改查、状态、角色、头像等管理接口")
 @Validated
-public class UserController {
+public class UserController{
 
     @Autowired
     private UserService userService;
@@ -42,7 +41,8 @@ public class UserController {
     @GetMapping("/list")
     public Result<IPage<User>> listUsers(
             @Parameter(description = "当前页码") @RequestParam(defaultValue = "1") @Min(1) long current,
-            @Parameter(description = "每页记录数") @RequestParam(defaultValue = "10") @Min(1) long size) {
+            @Parameter(description = "每页记录数") @RequestParam(defaultValue = "10") @Min(1) long size)
+    {
 
         IPage<User> page = new Page<>(current, size);
         IPage<User> pageResult = userService.page(page);
@@ -51,11 +51,11 @@ public class UserController {
 
     @Operation(summary = "根据ID查询用户信息")
     @GetMapping("/{id}")
-    public Result<User> getUserById(
-            @Parameter(description = "用户ID") @PathVariable @Min(1) long id) {
+    public Result<User> getUserById(@Parameter(description = "用户ID") @PathVariable @Min(1) long id)
+    {
 
         User user = userService.getById(id);
-        if (user == null) {
+        if(user == null){
             throw new BlogException(ResultCodeEnum.ADMIN_ACCOUNT_NOT_EXIST_ERROR);
         }
         return Result.ok(user);
@@ -63,15 +63,16 @@ public class UserController {
 
     @Operation(summary = "新增或修改用户")
     @PostMapping("/updateOrSaveUser")
-    public Result updateOrSaveUser(@Parameter(description = "用户信息")@RequestBody User user) {
+    public Result updateOrSaveUser(@Parameter(description = "用户信息") @RequestBody User user)
+    {
         userService.saveOrUpdate(user);
         return Result.ok();
     }
 
     @Operation(summary = "禁用用户")
     @PutMapping("/{id}/disable")
-    public Result disableUser(
-            @Parameter(description = "用户ID") @PathVariable @Min(1) long id) {
+    public Result disableUser(@Parameter(description = "用户ID") @PathVariable @Min(1) long id)
+    {
         LambdaUpdateWrapper<User> updateWrapper = new LambdaUpdateWrapper<User>()
                 .eq(User::getId, id)
                 .set(User::getStatus, 1);
@@ -83,9 +84,10 @@ public class UserController {
     @PutMapping("/{id}/status")
     public Result changeUserStatus(
             @Parameter(description = "用户ID") @PathVariable @Min(1) long id,
-            @Parameter(description = "状态，0-正常，1-禁用") @RequestParam @NotNull Integer status) {
+            @Parameter(description = "状态，0-正常，1-禁用") @RequestParam @NotNull Integer status)
+    {
 
-        if (status != 0 && status != 1) {
+        if(status != 0 && status != 1){
             throw new BlogException(ResultCodeEnum.PARAM_ERROR);
         }
         LambdaUpdateWrapper<User> updateWrapper = new LambdaUpdateWrapper<User>()
@@ -99,10 +101,11 @@ public class UserController {
     @PutMapping("/{id}/role")
     public Result changeUserRole(
             @Parameter(description = "用户ID") @PathVariable @Min(1) long id,
-            @Parameter(description = "角色，0-普通用户，1-管理员") @RequestParam @NotNull Integer role) {
+            @Parameter(description = "角色，0-普通用户，1-管理员") @RequestParam @NotNull Integer role)
+    {
 
         // 参数校验
-        if (role != 0 && role != 1) {
+        if(role != 0 && role != 1){
             throw new BlogException(ResultCodeEnum.PARAM_ERROR);
         }
 
@@ -118,7 +121,9 @@ public class UserController {
     @PostMapping("/{id}/avatar")
     public Result updateUserAvatar(
             @Parameter(description = "用户ID") @PathVariable @Min(1) long id,
-            @Parameter(description = "头像图片") @RequestParam MultipartFile file) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
+            @Parameter(description = "头像图片") @RequestParam
+            MultipartFile file) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException
+    {
         String url = fileService.uploadFile(file);
         LambdaUpdateWrapper<User> updateWrapper = new LambdaUpdateWrapper<User>()
                 .eq(User::getId, id)
@@ -132,7 +137,8 @@ public class UserController {
     @PutMapping("/{id}/password")
     public Result resetUserPassword(
             @Parameter(description = "用户ID") @PathVariable @Min(1) long id,
-            @Parameter(description = "新密码") @RequestParam @NotBlank String newPassword) {
+            @Parameter(description = "新密码") @RequestParam @NotBlank String newPassword)
+    {
 
         // 密码应该进行加密处理，这里省略了加密逻辑
         // String encodedPassword = passwordEncoder.encode(newPassword);
