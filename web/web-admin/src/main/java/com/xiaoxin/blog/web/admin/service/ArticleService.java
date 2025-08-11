@@ -7,6 +7,8 @@ import com.xiaoxin.blog.web.admin.vo.ArticleDetailVo;
 import com.xiaoxin.blog.web.admin.vo.ArticleQueryVo;
 import com.xiaoxin.blog.web.admin.vo.ArticleVo;
 
+import java.util.List;
+
 /**
 * @author 小新
 * @description 针对表【article(文章表)】的数据库操作Service
@@ -17,4 +19,10 @@ public interface ArticleService extends IService<Article> {
     IPage<ArticleVo> getArticles(IPage<ArticleVo> page, ArticleQueryVo articleQueryVo);
 
     ArticleDetailVo getArticleById(Long id);
+
+    void restoreArticle(Long id);
+
+    void addTagsToArticle(Long id, List<Long> tagIds);
+
+    void removeTagsFromArticle(Long id, List<Long> tagIds);
 }

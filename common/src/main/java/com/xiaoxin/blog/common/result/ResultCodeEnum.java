@@ -3,7 +3,7 @@ package com.xiaoxin.blog.common.result;
 import lombok.Getter;
 
 @Getter
-public enum ResultCodeEnum {
+public enum ResultCodeEnum{
 
     SUCCESS(200, "成功"),
     FAIL(201, "失败"),
@@ -36,14 +36,15 @@ public enum ResultCodeEnum {
     TOKEN_EXPIRED(601, "token过期"),
     TOKEN_INVALID(602, "token非法"),
 
-    ARTICLE_NOT_EXIST(70,"文章不存在" );
+    ARTICLE_NOT_EXIST(701, "文章不存在"),
+    DATA_EXIST(702, "数据已存在，请勿重复添加");
 
 
     private final Integer code;
 
     private final String message;
 
-    ResultCodeEnum(Integer code, String message) {
+    ResultCodeEnum(Integer code, String message){
         this.code = code;
         this.message = message;
     }
