@@ -3,7 +3,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:mysql://192.168.127.100:3306/blog?useUnicode=true&characterEncoding=utf8mb4&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=GMT%2b8
+    url: jdbc:mysql://192.168.127.100:3306/blog?useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=GMT%2b8
     username: root
     password: Xiaoxin.sql123
   data:
@@ -16,6 +16,11 @@ spring:
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true  # 启用驼峰命名转换
+  global-config:
+    db-config:
+      update-strategy: not_empty  # 全局更新策略：只更新非NULL字段
+      # 可选值: ignored(默认)、not_null(非NULL)、not_empty(非空字符串)
 
 minio:
   endpoint: http://192.168.127.100:9000
@@ -25,3 +30,4 @@ minio:
 
 springdoc:
   default-flat-param-object: true
+

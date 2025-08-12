@@ -1,12 +1,20 @@
 package com.xiaoxin.blog.web.app.controller.content;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.xiaoxin.blog.common.result.Result;
+import com.xiaoxin.blog.web.app.dto.ArticleQueryDto;
 import com.xiaoxin.blog.web.app.service.ArticleService;
 import com.xiaoxin.blog.web.app.service.CategoryService;
+import com.xiaoxin.blog.web.app.vo.ArticleListVo;
+import com.xiaoxin.blog.web.app.vo.CategoryDetailVo;
+import com.xiaoxin.blog.web.app.vo.CategoryStatsVo;
+import com.xiaoxin.blog.web.app.vo.CategoryVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Tag(name = "文章分类")
 @RequestMapping("/app/categories")
@@ -42,20 +50,20 @@ public class CategoryController {
     
     @Operation(summary = "获取分类下的文章")
     @GetMapping("/{id}/articles")
-    public Result<PageResult<ArticleListVo>> getCategoryArticles(
+    public Result<IPage<ArticleListVo>> getCategoryArticles(
             @PathVariable Long id, 
             @RequestParam(defaultValue = "1") Integer page,
             @RequestParam(defaultValue = "10") Integer size,
             @RequestParam(defaultValue = "createTime") String sort) {
         
         ArticleQueryDto queryDto = ArticleQueryDto.builder()
-                .categoryId(id)
-                .page(page)
-                .size(size)
-                .sort(sort)
-                .build();
-        
-        PageResult<ArticleListVo> articles = articleService.getArticleList(queryDto);
+                                                  .categoryId(id)
+                                                  .page(page)
+                                                  .size(size)
+                                                  .sort(sort)
+                                                  .build();
+
+        IPage<ArticleListVo> articles = articleService.getArticleList(queryDto);
         return Result.ok(articles);
     }
     

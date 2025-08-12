@@ -1,9 +1,12 @@
 package com.xiaoxin.blog.web.app.service.impl;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xiaoxin.blog.model.entity.Article;
+import com.xiaoxin.blog.web.app.dto.ArticleQueryDto;
 import com.xiaoxin.blog.web.app.mapper.ArticleMapper;
 import com.xiaoxin.blog.web.app.service.ArticleService;
+import com.xiaoxin.blog.web.app.vo.ArticleListVo;
 import org.springframework.stereotype.Service;
 
 /**
@@ -15,6 +18,11 @@ import org.springframework.stereotype.Service;
 public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article>
     implements ArticleService {
 
+    @Override
+    public IPage<ArticleListVo> getArticleList(ArticleQueryDto queryDto)
+    {
+        return null;
+    }
 }
 
 

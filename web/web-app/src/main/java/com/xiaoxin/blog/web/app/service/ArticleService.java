@@ -1,7 +1,10 @@
 package com.xiaoxin.blog.web.app.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.xiaoxin.blog.model.entity.Article;
+import com.xiaoxin.blog.web.app.dto.ArticleQueryDto;
+import com.xiaoxin.blog.web.app.vo.ArticleListVo;
 
 /**
 * @author 小新
@@ -10,4 +13,5 @@ import com.xiaoxin.blog.model.entity.Article;
 */
 public interface ArticleService extends IService<Article> {
 
+    IPage<ArticleListVo> getArticleList(ArticleQueryDto queryDto);
 }

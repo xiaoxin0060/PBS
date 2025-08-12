@@ -2,6 +2,11 @@ package com.xiaoxin.blog.web.app.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.xiaoxin.blog.model.entity.Category;
+import com.xiaoxin.blog.web.app.vo.CategoryDetailVo;
+import com.xiaoxin.blog.web.app.vo.CategoryStatsVo;
+import com.xiaoxin.blog.web.app.vo.CategoryVo;
+
+import java.util.List;
 
 /**
 * @author 小新
@@ -10,4 +15,11 @@ import com.xiaoxin.blog.model.entity.Category;
 */
 public interface CategoryService extends IService<Category> {
 
+    List<CategoryVo> getAllActiveCategories();
+
+    List<CategoryVo> getHotCategories(Integer limit);
+
+    CategoryDetailVo getCategoryDetail(Long id);
+
+    CategoryStatsVo getCategoryStats(Long id);
 }

@@ -32,19 +32,37 @@ public enum ResultCodeEnum{
     APP_LOGIN_CODE_EXPIRED(505, "验证码已过期"),
     APP_LOGIN_CODE_ERROR(506, "验证码错误"),
     APP_ACCOUNT_DISABLED_ERROR(507, "该用户已被禁用"),
+    APP_USERNAME_EXIST_ERROR(508, "用户名已存在"),
+    APP_CAPTCHA_CODE_EXIST(509, "验证码不存在"),
+    APP_EMAIL_EXIST_ERROR(510, "邮箱已存在"),
 
     TOKEN_EXPIRED(601, "token过期"),
     TOKEN_INVALID(602, "token非法"),
+    APP_REFRESH_TOKEN_NOT_EXIST(602,",RefreshToken不能为空"),
+    APP_REFRESH_TOKEN_EXPIRED(603,"RefreshToken已过期"),
 
     ARTICLE_NOT_EXIST(701, "文章不存在"),
-    DATA_EXIST(702, "数据已存在，请勿重复添加");
+    DATA_EXIST(702, "数据已存在，请勿重复添加"),
+    APP_PASSWORD_ERROR(511, "密码错误"),
+    APP_USER_NOT_EXIST(512, "用户不存在"),
+    APP_USER_DISABLED(513, "用户被禁用"),
+
+    APP_EMAIL_INVALID(511,"邮箱格式不正确"),
+    APP_EMAIL_NOT_EXIST(512,"邮箱不存在"),
+    APP_EMAIL_CODE_SEND_FREQUENTLY(513,"验证码发送过于频繁，请稍后再试"),
+    APP_EMAIL_CODE_INVALID(514,"验证码不能为空"),
+    APP_EMAIL_CODE_EXPIRED(515,"验证码已过期"),
+    APP_EMAIL_CODE_ERROR(516,"验证码错误"),
+    APP_PASSWORD_INVALID(517,"密码不能为空"),
+    APP_PASSWORD_SAME_AS_OLD(518, "新密码不能与旧密码相同");
 
 
     private final Integer code;
 
     private final String message;
 
-    ResultCodeEnum(Integer code, String message){
+    ResultCodeEnum(Integer code, String message)
+    {
         this.code = code;
         this.message = message;
     }
