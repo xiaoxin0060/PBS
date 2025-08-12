@@ -1,6 +1,13 @@
 package com.xiaoxin.blog.web.app.controller.content;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.xiaoxin.blog.common.result.Result;
+import com.xiaoxin.blog.web.app.dto.AutoSaveDraftDto;
+import com.xiaoxin.blog.web.app.dto.SaveDraftDto;
+import com.xiaoxin.blog.web.app.dto.UpdateDraftDto;
+import com.xiaoxin.blog.web.app.service.DraftService;
+import com.xiaoxin.blog.web.app.vo.DraftDetailVo;
+import com.xiaoxin.blog.web.app.vo.DraftVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -24,10 +31,10 @@ public class DraftController {
     
     @Operation(summary = "获取草稿列表")
     @GetMapping
-    public Result<PageResult<DraftVo>> getDrafts(
+    public Result<IPage<DraftVo>> getDrafts(
             @RequestParam(defaultValue = "1") Integer page,
             @RequestParam(defaultValue = "10") Integer size) {
-        PageResult<DraftVo> drafts = draftService.getDrafts(page, size);
+        IPage<DraftVo> drafts = draftService.getDrafts(page, size);
         return Result.ok(drafts);
     }
     

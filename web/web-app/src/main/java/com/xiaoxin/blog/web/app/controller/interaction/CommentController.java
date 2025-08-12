@@ -1,7 +1,13 @@
 package com.xiaoxin.blog.web.app.controller.interaction;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.xiaoxin.blog.common.result.Result;
+import com.xiaoxin.blog.web.app.dto.AddCommentDto;
+import com.xiaoxin.blog.web.app.dto.CommentQueryDto;
+import com.xiaoxin.blog.web.app.dto.MyCommentQueryDto;
 import com.xiaoxin.blog.web.app.service.CommentService;
+import com.xiaoxin.blog.web.app.vo.CommentVo;
+import com.xiaoxin.blog.web.app.vo.MyCommentVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -18,8 +24,8 @@ public class CommentController {
     
     @Operation(summary = "获取文章评论")
     @GetMapping
-    public Result<PageResult<CommentVo>> getComments(CommentQueryDto queryDto) {
-        PageResult<CommentVo> comments = commentService.getComments(queryDto);
+    public Result<IPage<CommentVo>> getComments(CommentQueryDto queryDto) {
+        IPage<CommentVo> comments = commentService.getComments(queryDto);
         return Result.ok(comments);
     }
     
@@ -39,8 +45,8 @@ public class CommentController {
     
     @Operation(summary = "获取我的评论")
     @GetMapping("/my")
-    public Result<PageResult<MyCommentVo>> getMyComments(MyCommentQueryDto queryDto) {
-        PageResult<MyCommentVo> comments = commentService.getMyComments(queryDto);
+    public Result<IPage<MyCommentVo>> getMyComments(MyCommentQueryDto queryDto) {
+        IPage<MyCommentVo> comments = commentService.getMyComments(queryDto);
         return Result.ok(comments);
     }
 }

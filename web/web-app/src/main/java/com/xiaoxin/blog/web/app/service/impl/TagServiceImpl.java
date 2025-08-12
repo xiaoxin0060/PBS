@@ -4,7 +4,12 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xiaoxin.blog.model.entity.Tag;
 import com.xiaoxin.blog.web.app.mapper.TagMapper;
 import com.xiaoxin.blog.web.app.service.TagService;
+import com.xiaoxin.blog.web.app.vo.TagCloudVo;
+import com.xiaoxin.blog.web.app.vo.TagDetailVo;
+import com.xiaoxin.blog.web.app.vo.TagVo;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
 * @author 小新
@@ -15,6 +20,35 @@ import org.springframework.stereotype.Service;
 public class TagServiceImpl extends ServiceImpl<TagMapper, Tag>
     implements TagService {
 
+    @Override
+    public List<TagVo> getTags(Boolean hot, Integer limit)
+    {
+        return List.of();
+    }
+
+    @Override
+    public List<TagCloudVo> getTagCloud(Integer limit)
+    {
+        return List.of();
+    }
+
+    @Override
+    public List<TagVo> searchTags(String keyword, Integer limit)
+    {
+        return List.of();
+    }
+
+    @Override
+    public TagDetailVo getTagDetail(Long id)
+    {
+        return null;
+    }
+
+    @Override
+    public List<TagVo> getHotTags(Integer limit)
+    {
+        return List.of();
+    }
 }
 
 

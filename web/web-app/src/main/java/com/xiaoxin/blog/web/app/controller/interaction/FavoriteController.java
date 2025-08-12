@@ -1,6 +1,12 @@
 package com.xiaoxin.blog.web.app.controller.interaction;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.xiaoxin.blog.common.result.Result;
+import com.xiaoxin.blog.web.app.dto.CreateFavoriteFolderDto;
+import com.xiaoxin.blog.web.app.service.FavoriteService;
+import com.xiaoxin.blog.web.app.vo.FavoriteArticleVo;
+import com.xiaoxin.blog.web.app.vo.FavoriteFolderVo;
+import com.xiaoxin.blog.web.app.vo.FavoriteStatusVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -41,12 +47,12 @@ public class FavoriteController {
     
     @Operation(summary = "获取收藏的文章")
     @GetMapping("/articles")
-    public Result<PageResult<FavoriteArticleVo>> getFavoriteArticles(
+    public Result<IPage<FavoriteArticleVo>> getFavoriteArticles(
             @RequestParam(required = false) Long folderId,
             @RequestParam(defaultValue = "1") Integer page,
             @RequestParam(defaultValue = "10") Integer size) {
-        
-        PageResult<FavoriteArticleVo> articles = favoriteService.getFavoriteArticles(folderId, page, size);
+
+        IPage<FavoriteArticleVo> articles = favoriteService.getFavoriteArticles(folderId, page, size);
         return Result.ok(articles);
     }
     

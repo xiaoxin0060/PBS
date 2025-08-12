@@ -1,6 +1,10 @@
 package com.xiaoxin.blog.web.app.controller.notification;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.xiaoxin.blog.common.result.Result;
+import com.xiaoxin.blog.web.app.dto.NotificationQueryDto;
+import com.xiaoxin.blog.web.app.service.NotificationService;
+import com.xiaoxin.blog.web.app.vo.NotificationVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +22,8 @@ public class NotificationController {
     
     @Operation(summary = "获取通知列表")
     @GetMapping
-    public Result<PageResult<NotificationVo>> getNotifications(NotificationQueryDto queryDto) {
-        PageResult<NotificationVo> notifications = notificationService.getNotifications(queryDto);
+    public Result<IPage<NotificationVo>> getNotifications(NotificationQueryDto queryDto) {
+        IPage<NotificationVo> notifications = notificationService.getNotifications(queryDto);
         return Result.ok(notifications);
     }
     

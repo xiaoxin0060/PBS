@@ -1,13 +1,24 @@
 package com.xiaoxin.blog.web.app.controller.content;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.xiaoxin.blog.common.result.Result;
 import com.xiaoxin.blog.model.enums.PopularType;
+import com.xiaoxin.blog.web.app.dto.ArticleQueryDto;
+import com.xiaoxin.blog.web.app.dto.MyArticleQueryDto;
+import com.xiaoxin.blog.web.app.dto.PublishArticleDto;
+import com.xiaoxin.blog.web.app.dto.UpdateArticleDto;
 import com.xiaoxin.blog.web.app.service.ArticleService;
+import com.xiaoxin.blog.web.app.vo.ArticleDetailVo;
+import com.xiaoxin.blog.web.app.vo.ArticleListVo;
+import com.xiaoxin.blog.web.app.vo.MyArticleVo;
+import com.xiaoxin.blog.web.app.vo.PopularArticleVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Tag(name = "文章内容")
 @RequestMapping("/app/posts")
@@ -19,8 +30,8 @@ public class PostController {
     
     @Operation(summary = "获取文章列表")
     @GetMapping
-    public Result<PageResult<ArticleListVo>> getArticles(ArticleQueryDto queryDto) {
-        PageResult<ArticleListVo> articles = articleService.getArticleList(queryDto);
+    public Result<IPage<ArticleListVo>> getArticles(ArticleQueryDto queryDto) {
+        IPage<ArticleListVo> articles = articleService.getArticleList(queryDto);
         return Result.ok(articles);
     }
     
@@ -65,8 +76,8 @@ public class PostController {
     
     @Operation(summary = "获取我的文章")
     @GetMapping("/my")
-    public Result<PageResult<MyArticleVo>> getMyArticles(MyArticleQueryDto queryDto) {
-        PageResult<MyArticleVo> articles = articleService.getMyArticles(queryDto);
+    public Result<IPage<MyArticleVo>> getMyArticles(MyArticleQueryDto queryDto) {
+        IPage<MyArticleVo> articles = articleService.getMyArticles(queryDto);
         return Result.ok(articles);
     }
 }

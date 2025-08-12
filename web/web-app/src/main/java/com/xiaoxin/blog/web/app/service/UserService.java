@@ -1,7 +1,12 @@
 package com.xiaoxin.blog.web.app.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.xiaoxin.blog.model.entity.User;
+import com.xiaoxin.blog.web.app.dto.ChangePasswordDto;
+import com.xiaoxin.blog.web.app.dto.UpdateProfileDto;
+import com.xiaoxin.blog.web.app.vo.*;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
 * @author 小新
@@ -10,4 +15,21 @@ import com.xiaoxin.blog.model.entity.User;
 */
 public interface UserService extends IService<User> {
 
+    IPage<UserPageVo> getUserPage(Long userId);
+
+    IPage<UserArticleVo> getUserArticles(Long userId, Integer page, Integer size);
+
+    IPage<UserActivityVo> getUserActivities(Long userId, Integer page, Integer size);
+
+    IPage<UserSearchVo> searchUsers(String keyword, Integer page, Integer size);
+
+    UserProfileVo getCurrentUserProfile();
+
+    void updateProfile(UpdateProfileDto updateDto);
+
+    String uploadAvatar(MultipartFile file);
+
+    void changePassword(ChangePasswordDto changePasswordDto);
+
+    UserStatisticsVo getUserStatistics();
 }

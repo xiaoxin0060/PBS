@@ -1,11 +1,19 @@
 package com.xiaoxin.blog.web.app.controller.discover;
 
 import com.xiaoxin.blog.common.result.Result;
+import com.xiaoxin.blog.web.app.dto.RecommendClickDto;
+import com.xiaoxin.blog.web.app.service.RecommendService;
+import com.xiaoxin.blog.web.app.vo.RecommendArticleVo;
+import com.xiaoxin.blog.web.app.vo.RecommendCategoryVo;
+import com.xiaoxin.blog.web.app.vo.RecommendTagVo;
+import com.xiaoxin.blog.web.app.vo.RecommendUserVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Tag(name = "内容推荐")
 @RequestMapping("/app/recommend")

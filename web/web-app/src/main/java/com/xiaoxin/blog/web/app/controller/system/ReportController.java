@@ -1,11 +1,19 @@
 package com.xiaoxin.blog.web.app.controller.system;
 
 import com.xiaoxin.blog.common.result.Result;
+import com.xiaoxin.blog.web.app.dto.FeedbackDto;
+import com.xiaoxin.blog.web.app.dto.ReportArticleDto;
+import com.xiaoxin.blog.web.app.dto.ReportCommentDto;
+import com.xiaoxin.blog.web.app.dto.ReportUserDto;
+import com.xiaoxin.blog.web.app.service.ReportService;
+import com.xiaoxin.blog.web.app.vo.ReportTypeVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Tag(name = "举报反馈")
 @RequestMapping("/app/reports")

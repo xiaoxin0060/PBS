@@ -22,4 +22,6 @@ public interface CategoryService extends IService<Category> {
     CategoryDetailVo getCategoryDetail(Long id);
 
     CategoryStatsVo getCategoryStats(Long id);
+
+    List<CategoryVo> getAllCategories();
 }

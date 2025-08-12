@@ -1,6 +1,13 @@
 package com.xiaoxin.blog.web.app.controller.interaction;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.xiaoxin.blog.common.result.Result;
+import com.xiaoxin.blog.web.app.dto.LikeStatusQueryDto;
+import com.xiaoxin.blog.web.app.dto.PageQueryDto;
+import com.xiaoxin.blog.web.app.service.LikeService;
+import com.xiaoxin.blog.web.app.vo.LikeBatchStatusVo;
+import com.xiaoxin.blog.web.app.vo.LikeStatusVo;
+import com.xiaoxin.blog.web.app.vo.LikedArticleVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,8 +44,8 @@ public class LikeController {
     
     @Operation(summary = "获取我点赞的文章")
     @GetMapping("/articles")
-    public Result<PageResult<LikedArticleVo>> getMyLikedArticles(PageQueryDto queryDto) {
-        PageResult<LikedArticleVo> articles = likeService.getMyLikedArticles(queryDto);
+    public Result<IPage<LikedArticleVo>> getMyLikedArticles(PageQueryDto queryDto) {
+        IPage<LikedArticleVo> articles = likeService.getMyLikedArticles(queryDto);
         return Result.ok(articles);
     }
 }

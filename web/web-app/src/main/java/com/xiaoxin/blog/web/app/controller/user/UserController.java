@@ -1,7 +1,12 @@
 package com.xiaoxin.blog.web.app.controller.user;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.xiaoxin.blog.common.result.Result;
 import com.xiaoxin.blog.web.app.service.UserService;
+import com.xiaoxin.blog.web.app.vo.UserActivityVo;
+import com.xiaoxin.blog.web.app.vo.UserArticleVo;
+import com.xiaoxin.blog.web.app.vo.UserPageVo;
+import com.xiaoxin.blog.web.app.vo.UserSearchVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,41 +22,41 @@ public class UserController {
     
     @Operation(summary = "获取用户主页")
     @GetMapping("/{userId}")
-    public Result<UserPageVo> getUserPage(@PathVariable Long userId) {
-        UserPageVo userPage = userService.getUserPage(userId);
+    public Result<IPage<UserPageVo>> getUserPage(@PathVariable Long userId) {
+        IPage<UserPageVo> userPage = userService.getUserPage(userId);
         return Result.ok(userPage);
     }
     
     @Operation(summary = "获取用户文章")
     @GetMapping("/{userId}/articles")
-    public Result<PageResult<UserArticleVo>> getUserArticles(
+    public Result<IPage<UserArticleVo>> getUserArticles(
             @PathVariable Long userId,
             @RequestParam(defaultValue = "1") Integer page,
             @RequestParam(defaultValue = "10") Integer size) {
-        
-        PageResult<UserArticleVo> articles = userService.getUserArticles(userId, page, size);
+
+        IPage<UserArticleVo> articles = userService.getUserArticles(userId, page, size);
         return Result.ok(articles);
     }
     
     @Operation(summary = "获取用户动态")
     @GetMapping("/{userId}/activities")
-    public Result<PageResult<UserActivityVo>> getUserActivities(
+    public Result<IPage<UserActivityVo>> getUserActivities(
             @PathVariable Long userId,
             @RequestParam(defaultValue = "1") Integer page,
             @RequestParam(defaultValue = "20") Integer size) {
-        
-        PageResult<UserActivityVo> activities = userService.getUserActivities(userId, page, size);
+
+        IPage<UserActivityVo> activities = userService.getUserActivities(userId, page, size);
         return Result.ok(activities);
     }
     
     @Operation(summary = "搜索用户")
     @GetMapping("/search")
-    public Result<PageResult<UserSearchVo>> searchUsers(
+    public Result<IPage<UserSearchVo>> searchUsers(
             @RequestParam String keyword,
             @RequestParam(defaultValue = "1") Integer page,
             @RequestParam(defaultValue = "10") Integer size) {
-        
-        PageResult<UserSearchVo> users = userService.searchUsers(keyword, page, size);
+
+        IPage<UserSearchVo> users = userService.searchUsers(keyword, page, size);
         return Result.ok(users);
     }
 }

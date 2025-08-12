@@ -1,7 +1,11 @@
 package com.xiaoxin.blog.web.app.controller.user;
 
 import com.xiaoxin.blog.common.result.Result;
+import com.xiaoxin.blog.web.app.dto.ChangePasswordDto;
+import com.xiaoxin.blog.web.app.dto.UpdateProfileDto;
 import com.xiaoxin.blog.web.app.service.UserService;
+import com.xiaoxin.blog.web.app.vo.UserProfileVo;
+import com.xiaoxin.blog.web.app.vo.UserStatisticsVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
