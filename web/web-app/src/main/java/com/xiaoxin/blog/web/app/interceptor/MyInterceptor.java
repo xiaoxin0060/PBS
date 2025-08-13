@@ -23,6 +23,7 @@ public class MyInterceptor implements HandlerInterceptor{
         LoginUserHolder.set(new LoginUser(claims.get("userId", Long.class), claims.get("username", String.class)));
         if (redisTemplate.hasKey("token-blacklist-" + jwt)) {
             response.setStatus(401);
+            System.out.println("token在黑名单");
             return false;
         }
         return true;

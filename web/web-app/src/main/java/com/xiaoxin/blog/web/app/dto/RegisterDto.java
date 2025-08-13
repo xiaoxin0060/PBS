@@ -56,7 +56,7 @@ public class RegisterDto {
 
     @Schema(description = "验证码标识key",
             requiredMode = Schema.RequiredMode.REQUIRED,
-            example = "register_1691234567890")
+            example = "auth-captcha-")
     @NotBlank(message = "验证码key不能为空")
     private String captchaKey;
 

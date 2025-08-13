@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Tag(name = "分类标签")
-@RequestMapping("/app")
+@RequestMapping("/app/category-tag")
 @RestController
 public class CategoryTagController {
     

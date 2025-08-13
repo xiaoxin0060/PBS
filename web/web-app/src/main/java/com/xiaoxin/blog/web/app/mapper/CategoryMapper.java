@@ -2,6 +2,9 @@ package com.xiaoxin.blog.web.app.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.xiaoxin.blog.model.entity.Category;
+import com.xiaoxin.blog.web.app.vo.CategoryVo;
+
+import java.util.List;
 
 /**
 * @author 小新
@@ -10,6 +13,10 @@ import com.xiaoxin.blog.model.entity.Category;
 * @Entity com.xiaoxin.blog.model.entity.Category
 */
 public interface CategoryMapper extends BaseMapper<Category> {
+
+    List<CategoryVo> selectHotCategories(Integer limit);
+
+    List<CategoryVo> selectAllWithArticleCount();
 
 }
 

@@ -22,6 +22,7 @@ import com.xiaoxin.blog.web.app.vo.TokenVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -29,6 +30,7 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
+@Service
 public class AuthServiceImpl implements AuthService{
     // Redis Key前缀
     private static final String CAPTCHA_KEY_PREFIX = "auth-captcha-";
@@ -50,9 +52,10 @@ public class AuthServiceImpl implements AuthService{
             throw new BlogException(ResultCodeEnum.ADMIN_CAPTCHA_CODE_ERROR);
         }
 
-        // 2. 校验用户名是否存在
+        // 2. 校验用户名是否存在（修正版 - 考虑User表status字段）
         LambdaQueryWrapper<User> usernameWrapper = new LambdaQueryWrapper<>();
-        usernameWrapper.eq(User::getUsername, registerDto.getUsername());
+        usernameWrapper.eq(User::getUsername, registerDto.getUsername()).eq(User::getStatus,
+                0); // 只查询正常状态的用户（status=0正常，status=1禁用）
         if(userMapper.selectCount(usernameWrapper) > 0){
             throw new BlogException(ResultCodeEnum.APP_USERNAME_EXIST_ERROR);
         }
@@ -140,7 +143,7 @@ public class AuthServiceImpl implements AuthService{
         LoginUser currentUser = LoginUserHolder.get();
         if(currentUser == null){
             // 未登录状态，直接返回
-            return;
+            throw new BlogException(ResultCodeEnum.APP_LOGIN_AUTH);
         }
         // 2. 清除用户相关缓存
         Long userId = currentUser.getUserId();
@@ -215,7 +218,7 @@ public class AuthServiceImpl implements AuthService{
         // 1. 生成验证码（使用你现有的SpecCaptcha）
         SpecCaptcha specCaptcha = new SpecCaptcha(130, 48, 4);
         String code = specCaptcha.text().toLowerCase();
-        String key = "auth-captcha-" + UUID.randomUUID();
+        String key = CAPTCHA_KEY_PREFIX + UUID.randomUUID();
         String imageBase64 = specCaptcha.toBase64();
 
         // 2. 存储到Redis（10分钟过期）

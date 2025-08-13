@@ -2,7 +2,6 @@ package com.xiaoxin.blog.web.app.controller.content;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.xiaoxin.blog.common.result.Result;
-import com.xiaoxin.blog.web.app.dto.ArticleQueryDto;
 import com.xiaoxin.blog.web.app.service.ArticleService;
 import com.xiaoxin.blog.web.app.service.TagService;
 import com.xiaoxin.blog.web.app.vo.ArticleListVo;
@@ -14,7 +13,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
 import java.util.List;
 
 @Tag(name = "文章标签")
@@ -58,16 +56,7 @@ public class TagController {
             @RequestParam(defaultValue = "1") Integer page,
             @RequestParam(defaultValue = "10") Integer size,
             @RequestParam(defaultValue = "createTime") String sort) {
-        
-        ArticleQueryDto queryDto = ArticleQueryDto.builder()
-                                                  .tagIds(Collections.singletonList(id))
-                                                  .page(page)
-                                                  .size(size)
-                                                  .sort(sort)
-                                                  .build();
-
-        IPage<ArticleListVo> articles = articleService.getArticleList(queryDto);
-        return Result.ok(articles);
+        return Result.ok();
     }
     
     @Operation(summary = "搜索标签")
