@@ -6,22 +6,24 @@ import com.xiaoxin.blog.common.utils.JwtUtil;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 @Component
 public class MyInterceptor implements HandlerInterceptor{
-    @Autowired
-    private StringRedisTemplate redisTemplate;
+    private final StringRedisTemplate redisTemplate;
+
+    public MyInterceptor(StringRedisTemplate redisTemplate) {
+        this.redisTemplate = redisTemplate;
+    }
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         System.out.println("拦截到了：" + request.getRequestURI());
         String jwt = request.getHeader("auth-jwt");
         Claims claims = JwtUtil.parseJwt(jwt);
         LoginUserHolder.set(new LoginUser(claims.get("userId", Long.class), claims.get("username", String.class)));
-        if (redisTemplate.hasKey("token-blacklist-" + jwt)) {
+        if (Boolean.TRUE.equals(redisTemplate.hasKey("token-blacklist-" + jwt))) {
             response.setStatus(401);
             System.out.println("token在黑名单");
             return false;

@@ -73,4 +73,19 @@
           AND a.status = #{queryDto.status}
         ORDER BY a.is_top DESC, a.create_time DESC
     </select>
+    <select id="getDrafts" resultType="com.xiaoxin.blog.web.app.vo.DraftVo">
+        SELECT
+            a.id                       AS id,
+            u.username                 AS userName,
+            a.title                    AS title,
+            a.category_id              AS categoryId
+        FROM article a
+                 LEFT JOIN user u
+                           ON u.id = a.create_by
+                               AND (u.deleted = 0 OR u.deleted IS NULL)
+        WHERE a.deleted = 0
+          AND a.status = 0
+          AND a.create_by = #{userId}
+        ORDER BY a.create_time DESC, a.id DESC
+    </select>
 </mapper>

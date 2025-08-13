@@ -18,7 +18,7 @@ public interface DraftService{
 
     void deleteDraft(Long id);
 
-    Long publishDraft(Long id);
+    void publishDraft(Long id);
 
     Long autoSaveDraft(AutoSaveDraftDto draftDto);
 }

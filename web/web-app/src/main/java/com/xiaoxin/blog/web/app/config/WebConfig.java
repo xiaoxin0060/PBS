@@ -7,9 +7,13 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer{
+    private final MyInterceptor myInterceptor;
+    public WebConfig(MyInterceptor myInterceptor) {
+        this.myInterceptor = myInterceptor;
+    }
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new MyInterceptor())
+        registry.addInterceptor(myInterceptor)
                 .addPathPatterns("/app/**")
                 .excludePathPatterns("/app/auth/**","/app/categories/**","/app/tags/**");
     }

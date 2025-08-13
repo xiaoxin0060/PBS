@@ -54,7 +54,10 @@ public enum ResultCodeEnum{
     APP_EMAIL_CODE_EXPIRED(515,"验证码已过期"),
     APP_EMAIL_CODE_ERROR(516,"验证码错误"),
     APP_PASSWORD_INVALID(517,"密码不能为空"),
-    APP_PASSWORD_SAME_AS_OLD(518, "新密码不能与旧密码相同");
+    APP_PASSWORD_SAME_AS_OLD(518, "新密码不能与旧密码相同"),
+    APP_DATA_NOT_EXIST(519, "访问不存在或是没有权限的数据"),
+    APP_NO_AUTH(520,"没有权限访问" ),
+    APP_DATA_CONFLICT(521, "数据冲突");
 
 
     private final Integer code;

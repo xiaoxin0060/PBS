@@ -6,6 +6,7 @@ import com.xiaoxin.blog.model.entity.Article;
 import com.xiaoxin.blog.web.app.dto.ArticleQueryDto;
 import com.xiaoxin.blog.web.app.mapper.pojo.ArticleIdTagName;
 import com.xiaoxin.blog.web.app.vo.ArticleListVo;
+import com.xiaoxin.blog.web.app.vo.DraftVo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -21,6 +22,8 @@ public interface ArticleMapper extends BaseMapper<Article> {
     // 一次性查询本页所有文章的标签名对，便于回填，避免 N+1
     List<ArticleIdTagName> selectTagNamesByArticleIds(@Param("articleIds")List<Long> articleIds);
     IPage<ArticleListVo> selectPagedArticles(@Param("page")IPage<ArticleListVo> page, @Param("queryDto")ArticleQueryDto queryDto);
+
+    IPage<DraftVo> getDrafts(IPage<DraftVo> page, Long userId);
 }
 
 

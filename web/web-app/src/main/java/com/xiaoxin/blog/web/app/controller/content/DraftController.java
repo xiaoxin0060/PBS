@@ -32,9 +32,9 @@ public class DraftController {
     @Operation(summary = "获取草稿列表")
     @GetMapping
     public Result<IPage<DraftVo>> getDrafts(
-            @RequestParam(defaultValue = "1") Integer page,
+            @RequestParam(defaultValue = "1") Integer cur,
             @RequestParam(defaultValue = "10") Integer size) {
-        IPage<DraftVo> drafts = draftService.getDrafts(page, size);
+        IPage<DraftVo> drafts = draftService.getDrafts(cur, size);
         return Result.ok(drafts);
     }
     
@@ -62,9 +62,9 @@ public class DraftController {
     
     @Operation(summary = "发布草稿")
     @PostMapping("/{id}/publish")
-    public Result<Long> publishDraft(@PathVariable Long id) {
-        Long articleId = draftService.publishDraft(id);
-        return Result.ok(articleId);
+    public Result publishDraft(@PathVariable Long id) {
+        draftService.publishDraft(id);
+        return Result.ok();
     }
     
     @Operation(summary = "自动保存草稿")

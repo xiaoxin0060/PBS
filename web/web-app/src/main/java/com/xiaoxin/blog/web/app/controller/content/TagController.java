@@ -3,7 +3,6 @@ package com.xiaoxin.blog.web.app.controller.content;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.xiaoxin.blog.common.result.Result;
 import com.xiaoxin.blog.web.app.dto.ArticleQueryDto;
-import com.xiaoxin.blog.web.app.service.ArticleService;
 import com.xiaoxin.blog.web.app.service.TagService;
 import com.xiaoxin.blog.web.app.vo.ArticleListVo;
 import com.xiaoxin.blog.web.app.vo.TagVo;
@@ -22,9 +21,7 @@ public class TagController {
     
     @Autowired
     private TagService tagService;
-    @Autowired
-    private ArticleService articleService;
-    
+
     @Operation(summary = "获取所有标签")
     @GetMapping
     public Result<List<TagVo>> getAllTags() {
