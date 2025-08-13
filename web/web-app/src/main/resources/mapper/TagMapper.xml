@@ -4,4 +4,60 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xiaoxin.blog.web.app.mapper.TagMapper">
 
+    <select id="getAllTags" resultType="com.xiaoxin.blog.web.app.vo.TagVo">
+        SELECT
+            t.id        AS id,
+            t.name      AS name,
+            COALESCE(cnt.articleCount, 0) AS articleCount
+        FROM tag t
+                 LEFT JOIN (
+            SELECT at.tag_id, COUNT(DISTINCT at.article_id) AS articleCount
+            FROM article_tag at
+                     JOIN article a ON a.id = at.article_id AND a.deleted = 0 AND a.status = 1
+            GROUP BY at.tag_id
+        ) cnt ON cnt.tag_id = t.id
+        WHERE t.deleted = 0
+        ORDER BY t.id ASC
+    </select>
+    <select id="getHotTags" resultType="com.xiaoxin.blog.web.app.vo.TagVo">
+        SELECT
+            t.id AS id,
+            t.name AS name,
+            -- 文章数
+            COALESCE(art.article_cnt, 0) AS articleCount,
+            -- 综合热度分：文章数、评论数、点赞数加权
+            (
+                COALESCE(art.article_cnt, 0) * #{wArticle}
+                    + COALESCE(cmt.comment_cnt, 0) * #{wComment}
+                    + COALESCE(lk.like_sum, 0)    * #{wLike}
+                ) AS heatScore
+        FROM tag t
+                 LEFT JOIN (
+            SELECT at.tag_id, COUNT(DISTINCT a.id) AS article_cnt
+            FROM article_tag at
+                     JOIN article a ON a.id = at.article_id
+            WHERE a.deleted = 0 AND a.status = 1
+            GROUP BY at.tag_id
+        ) art ON art.tag_id = t.id
+                 LEFT JOIN (
+            SELECT at.tag_id, COUNT(c.id) AS comment_cnt
+            FROM article_tag at
+                     JOIN article a ON a.id = at.article_id
+                     JOIN comment c ON c.article_id = a.id
+            WHERE a.deleted = 0 AND a.status = 1
+              AND c.deleted = 0
+            /* 如果有评论状态字段，可加：AND c.status = 1 */
+            GROUP BY at.tag_id
+        ) cmt ON cmt.tag_id = t.id
+                 LEFT JOIN (
+            SELECT at.tag_id, SUM(a.like_count) AS like_sum
+            FROM article_tag at
+                     JOIN article a ON a.id = at.article_id
+            WHERE a.deleted = 0 AND a.status = 1
+            GROUP BY at.tag_id
+        ) lk ON lk.tag_id = t.id
+        WHERE t.deleted = 0
+        ORDER BY heatScore DESC, t.id ASC
+        LIMIT #{limit}
+    </select>
 </mapper>

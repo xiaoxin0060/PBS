@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 文章列表VO
@@ -15,8 +16,11 @@ public class ArticleListVo {
     private String title;
     private String coverImage;
     private String categoryName;
+    private List<String> tagsName;
     private Integer isTop;
     private Integer viewCount;
     private Integer likeCount;
     private Date createTime;
+
+
 }

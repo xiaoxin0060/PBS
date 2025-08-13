@@ -3,7 +3,7 @@ package com.xiaoxin.blog.web.app.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.xiaoxin.blog.model.entity.Category;
-import com.xiaoxin.blog.web.app.dto.CategoryArticleQueryDto;
+import com.xiaoxin.blog.web.app.dto.ArticleQueryDto;
 import com.xiaoxin.blog.web.app.vo.ArticleListVo;
 import com.xiaoxin.blog.web.app.vo.CategoryVo;
 
@@ -20,6 +20,5 @@ public interface CategoryService extends IService<Category> {
 
     List<CategoryVo> getAllCategories();
 
-
-    IPage<ArticleListVo> getCategoryArticles(CategoryArticleQueryDto queryDto);
+    IPage<ArticleListVo> getCategoryArticles(ArticleQueryDto queryDto);
 }

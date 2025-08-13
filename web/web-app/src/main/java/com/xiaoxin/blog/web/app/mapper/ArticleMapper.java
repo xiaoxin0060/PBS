@@ -3,8 +3,12 @@ package com.xiaoxin.blog.web.app.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.xiaoxin.blog.model.entity.Article;
-import com.xiaoxin.blog.web.app.dto.CategoryArticleQueryDto;
+import com.xiaoxin.blog.web.app.dto.ArticleQueryDto;
+import com.xiaoxin.blog.web.app.mapper.pojo.ArticleIdTagName;
 import com.xiaoxin.blog.web.app.vo.ArticleListVo;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
 * @author 小新
@@ -13,8 +17,10 @@ import com.xiaoxin.blog.web.app.vo.ArticleListVo;
 * @Entity com.xiaoxin.blog.model.entity.Article
 */
 public interface ArticleMapper extends BaseMapper<Article> {
-
-    IPage<ArticleListVo> getCategoryArticles(IPage<ArticleListVo> page, CategoryArticleQueryDto queryDto);
+    IPage<ArticleListVo> getCategoryArticles(@Param("page")IPage<ArticleListVo> page, @Param("queryDto")ArticleQueryDto queryDto);
+    // 一次性查询本页所有文章的标签名对，便于回填，避免 N+1
+    List<ArticleIdTagName> selectTagNamesByArticleIds(@Param("articleIds")List<Long> articleIds);
+    IPage<ArticleListVo> selectPagedArticles(@Param("page")IPage<ArticleListVo> page, @Param("queryDto")ArticleQueryDto queryDto);
 }
 
 

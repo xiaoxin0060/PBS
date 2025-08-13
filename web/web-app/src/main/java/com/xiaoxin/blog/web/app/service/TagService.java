@@ -1,9 +1,10 @@
 package com.xiaoxin.blog.web.app.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.xiaoxin.blog.model.entity.Tag;
-import com.xiaoxin.blog.web.app.vo.TagCloudVo;
-import com.xiaoxin.blog.web.app.vo.TagDetailVo;
+import com.xiaoxin.blog.web.app.dto.ArticleQueryDto;
+import com.xiaoxin.blog.web.app.vo.ArticleListVo;
 import com.xiaoxin.blog.web.app.vo.TagVo;
 
 import java.util.List;
@@ -15,13 +16,10 @@ import java.util.List;
 */
 public interface TagService extends IService<Tag> {
 
-    List<TagVo> getTags(Boolean hot, Integer limit);
-
-    List<TagCloudVo> getTagCloud(Integer limit);
-
-    List<TagVo> searchTags(String keyword, Integer limit);
-
-    TagDetailVo getTagDetail(Long id);
 
     List<TagVo> getHotTags(Integer limit);
+
+    List<TagVo> getAllTags();
+
+    IPage<ArticleListVo> getTagArticles(ArticleQueryDto queryDto);
 }

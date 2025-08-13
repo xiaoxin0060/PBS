@@ -4,6 +4,58 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xiaoxin.blog.web.app.mapper.ArticleMapper">
 
+    <!-- 分页查询文章列表：selectPagedArticles(IPage, @Param("queryDto")) -->
+    <select id="selectPagedArticles" resultType="com.xiaoxin.blog.web.app.vo.ArticleListVo">
+        SELECT
+        a.id,
+        a.title,
+        a.cover_image AS coverImage,
+        c.name AS categoryName,
+        a.is_top AS isTop,
+        a.view_count AS viewCount,
+        a.like_count AS likeCount,
+        a.create_time AS createTime
+        FROM article a
+        LEFT JOIN category c ON c.id = a.category_id AND c.deleted = 0
+        <where>
+            a.deleted = 0
+            <if test="queryDto != null and queryDto.status != null">
+                AND a.status = #{queryDto.status}
+            </if>
+            <if test="queryDto != null and queryDto.categoryId != null">
+                AND a.category_id = #{queryDto.categoryId}
+            </if>
+
+            <!-- 注意这里用 size 而不是 size() -->
+            <if test="queryDto != null and queryDto.tagIds != null and queryDto.tagIds.size > 0"> <!-- 先把长度绑定成普通变量，供后面 HAVING 使用 -->
+                <bind name="tagCount" value="queryDto.tagIds.size"/>
+                AND a.id IN ( SELECT at3.article_id FROM article_tag at3 JOIN tag t3 ON t3.id = at3.tag_id AND
+                t3.deleted = 0 WHERE at3.tag_id IN <foreach collection="queryDto.tagIds" item="tid" open="("
+                                                            separator="," close=")">#{tid}
+                </foreach> GROUP BY at3.article_id HAVING COUNT(DISTINCT at3.tag_id) = #{tagCount} )
+            </if>
+        </where>
+        ORDER BY a.is_top DESC, a.create_time DESC
+    </select>
+
+    <!-- 批量查询标签名对：selectTagNamesByArticleIds(@Param("articleIds")) -->
+    <select id="selectTagNamesByArticleIds" resultType="com.xiaoxin.blog.web.app.mapper.pojo.ArticleIdTagName">
+        SELECT
+        at.article_id AS articleId,
+        t.name        AS tagName
+        FROM article_tag at
+        JOIN tag t ON t.id = at.tag_id AND t.deleted = 0
+        <where>
+            <if test="articleIds != null and articleIds.size() > 0">
+                at.article_id IN
+                <foreach collection="articleIds" item="id" open="(" separator="," close=")">
+                    #{id}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+
     <select id="getCategoryArticles" resultType="com.xiaoxin.blog.web.app.vo.ArticleListVo">
         SELECT
             a.id,

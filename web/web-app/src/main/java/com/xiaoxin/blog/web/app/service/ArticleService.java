@@ -19,7 +19,7 @@ import java.util.List;
 */
 public interface ArticleService extends IService<Article> {
 
-    IPage<ArticleListVo> getArticleList(CategoryArticleQueryDto queryDto);
+    IPage<ArticleListVo> getArticleList(ArticleQueryDto queryDto);
 
     ArticleDetailVo getArticleDetail(Long id);
 

@@ -2,6 +2,9 @@ package com.xiaoxin.blog.web.app.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.xiaoxin.blog.model.entity.Tag;
+import com.xiaoxin.blog.web.app.vo.TagVo;
+
+import java.util.List;
 
 /**
 * @author 小新
@@ -11,6 +14,9 @@ import com.xiaoxin.blog.model.entity.Tag;
 */
 public interface TagMapper extends BaseMapper<Tag> {
 
+    List<TagVo> getAllTags();
+
+    List<TagVo> getHotTags(Integer limit, int wArticle, int wComment, int wLike);
 }
 
 

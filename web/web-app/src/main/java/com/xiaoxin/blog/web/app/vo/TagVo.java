@@ -16,9 +16,6 @@ public class TagVo {
     @Schema(description = "标签名称")
     private String name;
 
-    @Schema(description = "标签颜色")
-    private String color;
-
     @Schema(description = "文章数量")
     private Integer articleCount;
 }

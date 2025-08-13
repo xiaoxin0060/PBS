@@ -2,7 +2,7 @@ package com.xiaoxin.blog.web.app.controller.content;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.xiaoxin.blog.common.result.Result;
-import com.xiaoxin.blog.web.app.dto.CategoryArticleQueryDto;
+import com.xiaoxin.blog.web.app.dto.ArticleQueryDto;
 import com.xiaoxin.blog.web.app.service.CategoryService;
 import com.xiaoxin.blog.web.app.vo.ArticleListVo;
 import com.xiaoxin.blog.web.app.vo.CategoryVo;
@@ -39,8 +39,8 @@ public class CategoryController {
                                                            @RequestParam Integer status,
                                                            @RequestParam Integer pageNum,
                                                            @RequestParam Integer pageSize) {
-        CategoryArticleQueryDto queryDto = CategoryArticleQueryDto.builder().categoryId(id).status(status).pageNum(pageNum)
-                                                                  .pageSize(pageSize).build();
+        ArticleQueryDto queryDto = ArticleQueryDto.builder().categoryId(id).status(status).pageNum(pageNum)
+                                                  .pageSize(pageSize).build();
         return Result.ok(categoryService.getCategoryArticles(queryDto));
     }
 

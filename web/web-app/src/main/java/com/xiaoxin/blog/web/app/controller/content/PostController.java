@@ -3,7 +3,7 @@ package com.xiaoxin.blog.web.app.controller.content;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.xiaoxin.blog.common.result.Result;
 import com.xiaoxin.blog.model.enums.PopularType;
-import com.xiaoxin.blog.web.app.dto.CategoryArticleQueryDto;
+import com.xiaoxin.blog.web.app.dto.ArticleQueryDto;
 import com.xiaoxin.blog.web.app.dto.MyArticleQueryDto;
 import com.xiaoxin.blog.web.app.dto.PublishArticleDto;
 import com.xiaoxin.blog.web.app.dto.UpdateArticleDto;
@@ -30,7 +30,7 @@ public class PostController {
     
     @Operation(summary = "获取文章列表")
     @GetMapping
-    public Result<IPage<ArticleListVo>> getArticles(CategoryArticleQueryDto queryDto) {
+    public Result<IPage<ArticleListVo>> getArticles(ArticleQueryDto queryDto) {
         IPage<ArticleListVo> articles = articleService.getArticleList(queryDto);
         return Result.ok(articles);
     }

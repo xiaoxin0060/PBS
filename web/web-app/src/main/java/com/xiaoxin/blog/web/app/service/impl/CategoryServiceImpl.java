@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xiaoxin.blog.model.entity.Category;
-import com.xiaoxin.blog.web.app.dto.CategoryArticleQueryDto;
+import com.xiaoxin.blog.web.app.dto.ArticleQueryDto;
 import com.xiaoxin.blog.web.app.mapper.ArticleMapper;
 import com.xiaoxin.blog.web.app.mapper.CategoryMapper;
 import com.xiaoxin.blog.web.app.mapper.TagMapper;
@@ -47,7 +47,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category>
     }
 
     @Override
-    public IPage<ArticleListVo> getCategoryArticles(CategoryArticleQueryDto queryDto)
+    public IPage<ArticleListVo> getCategoryArticles(ArticleQueryDto queryDto)
     {
         IPage<ArticleListVo> page = new Page<>(queryDto.getPageNum(), queryDto.getPageSize());
         return articleMapper.getCategoryArticles(page, queryDto);

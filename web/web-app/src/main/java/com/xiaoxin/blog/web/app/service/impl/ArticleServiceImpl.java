@@ -25,7 +25,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article>
     implements ArticleService {
 
     @Override
-    public IPage<ArticleListVo> getArticleList(CategoryArticleQueryDto queryDto)
+    public IPage<ArticleListVo> getArticleList(ArticleQueryDto queryDto)
     {
         return null;
     }
