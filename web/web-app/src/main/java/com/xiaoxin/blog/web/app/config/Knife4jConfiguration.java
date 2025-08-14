@@ -38,7 +38,7 @@ public class Knife4jConfiguration {
     public GroupedOpenApi discoverAPI() {
         return GroupedOpenApi.builder()
                              .group("发现功能")
-                             .pathsToMatch("/app/home/**", "/app/recommend/**", "/app/search/**")
+                             .pathsToMatch("/app/discover/**", "/app/recommend/**", "/app/search/**")
                              .build();
     }
 

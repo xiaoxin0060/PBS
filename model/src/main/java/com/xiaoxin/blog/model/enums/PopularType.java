@@ -1,5 +1,10 @@
 package com.xiaoxin.blog.model.enums;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@AllArgsConstructor
+@Getter
 public enum PopularType {
     HOT("最热门", "view_count"),           // 按浏览量排序
     LIKED("最受欢迎", "like_count"),       // 按点赞数排序
@@ -9,8 +14,5 @@ public enum PopularType {
     private final String description;
     private final String orderField;
 
-    PopularType(String description, String orderField) {
-        this.description = description;
-        this.orderField = orderField;
-    }
+
 }

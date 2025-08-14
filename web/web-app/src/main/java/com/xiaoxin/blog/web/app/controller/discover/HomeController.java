@@ -3,16 +3,12 @@ package com.xiaoxin.blog.web.app.controller.discover;
 import com.xiaoxin.blog.common.result.Result;
 import com.xiaoxin.blog.web.app.service.HomeService;
 import com.xiaoxin.blog.web.app.vo.HomeDataVo;
-import com.xiaoxin.blog.web.app.vo.RecommendArticleVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @Tag(name = "首页发现")
 @RequestMapping("/app/discover")
@@ -28,14 +24,4 @@ public class HomeController {
         HomeDataVo homeData = homeService.getHomeData();
         return Result.ok(homeData);
     }
-    
-    @Operation(summary = "获取推荐文章")
-    @GetMapping("/recommend")
-    public Result<List<RecommendArticleVo>> getRecommendArticles(
-            @RequestParam(required = false) Long articleId,
-            @RequestParam(defaultValue = "5") Integer limit) {
-        List<RecommendArticleVo> articles = homeService.getRecommendArticles(articleId, limit);
-        return Result.ok(articles);
-    }
-
 }

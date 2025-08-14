@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xiaoxin.blog.web.app.mapper.RecommendMapper">
+
+    <!-- 个性化文章推荐：基于近30天点击过的文章 → 反推分类偏好 -->
+    <select id="getPersonalizedRecommend" resultType="com.xiaoxin.blog.web.app.vo.RecommendArticleVo">
+        WITH user_click_articles AS (
+            SELECT cl.target_id AS article_id, COUNT(*) AS cnt
+            FROM click_log cl
+            WHERE cl.user_id = #{userId}
+              AND cl.target_type = 0
+              AND cl.created_at >= DATE_SUB(NOW(), INTERVAL 30 DAY)
+            GROUP BY cl.target_id
+        ),
+             user_pref_category AS (
+                 SELECT a.category_id, SUM(uca.cnt) AS weight
+                 FROM user_click_articles uca
+                          JOIN article a ON a.id = uca.article_id AND a.status = 1
+                 GROUP BY a.category_id
+             )
+        SELECT a.id,
+               a.title,
+               u.username,
+               a.create_time AS createTime
+        FROM article a
+                 JOIN user u ON u.id = a.user_id
+                 JOIN user_pref_category upc ON upc.category_id = a.category_id
+        WHERE a.status = 1
+        ORDER BY upc.weight DESC,
+                 (a.like_count + a.view_count) DESC,
+                 a.id DESC
+        LIMIT #{limit}
+    </select>
+
+    <!-- 个性化推荐用户：点击过的文章 → 作者聚合 -->
+    <select id="getRecommendUsers" resultType="com.xiaoxin.blog.web.app.vo.RecommendUserVo">
+        SELECT u.id, u.username
+        FROM user u
+                 JOIN (
+            SELECT a.user_id AS author_id, COUNT(*) AS weight
+            FROM click_log cl
+                     JOIN article a ON a.id = cl.target_id
+            WHERE cl.user_id = #{userId}
+              AND cl.target_type = 0
+              AND cl.created_at >= DATE_SUB(NOW(), INTERVAL 30 DAY)
+              AND a.status = 1
+            GROUP BY a.user_id
+        ) upa ON upa.author_id = u.id
+        ORDER BY upa.weight DESC
+        LIMIT #{limit}
+    </select>
+
+    <!-- 个性化推荐分类：点击过的文章 → 所属分类聚合 -->
+    <select id="getRecommendCategories" resultType="com.xiaoxin.blog.web.app.vo.RecommendCategoryVo">
+        SELECT c.id, c.name
+        FROM category c
+                 JOIN (
+            SELECT a2.category_id, COUNT(*) AS weight
+            FROM click_log cl
+                     JOIN article a2 ON a2.id = cl.target_id
+            WHERE cl.user_id = #{userId}
+              AND cl.target_type = 0
+              AND cl.created_at >= DATE_SUB(NOW(), INTERVAL 30 DAY)
+              AND a2.status = 1
+            GROUP BY a2.category_id
+        ) upc ON upc.category_id = c.id
+        ORDER BY upc.weight DESC
+        LIMIT #{limit}
+    </select>
+
+    <!-- 个性化推荐标签：点击过的文章 → 标签聚合 -->
+    <select id="getRecommendTags" resultType="com.xiaoxin.blog.web.app.vo.RecommendTagVo">
+        SELECT t.id, t.name
+        FROM tag t
+                 JOIN (
+            SELECT at2.tag_id, COUNT(*) AS weight
+            FROM click_log cl
+                     JOIN article_tag at2 ON at2.article_id = cl.target_id
+                     JOIN article a ON a.id = at2.article_id AND a.status = 1
+            WHERE cl.user_id = #{userId}
+              AND cl.target_type = 0
+              AND cl.created_at >= DATE_SUB(NOW(), INTERVAL 30 DAY)
+            GROUP BY at2.tag_id
+        ) upt ON upt.tag_id = t.id
+        ORDER BY upt.weight DESC
+        LIMIT #{limit}
+    </select>
+
+
+
+
+</mapper>

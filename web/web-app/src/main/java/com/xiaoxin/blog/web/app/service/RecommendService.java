@@ -10,13 +10,10 @@ import java.util.List;
 
 public interface RecommendService{
 
-    List<RecommendArticleVo> getRecommendArticles(Long articleId, Integer limit);
 
     List<RecommendArticleVo> getPersonalizedRecommend(Integer limit);
 
     List<RecommendUserVo> getRecommendUsers(Integer limit);
-
-    List<RecommendArticleVo> getRelatedArticles(Long articleId, Integer limit);
 
     List<RecommendCategoryVo> getRecommendCategories(Integer limit);
 

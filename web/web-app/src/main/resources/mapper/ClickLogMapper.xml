@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaoxin.blog.web.app.mapper.ClickLogMapper">
+    <insert id="recordRecommendClick" parameterType="map">
+        INSERT INTO click_log (user_id, target_type, target_id, created_at)
+        VALUES (#{userId}, #{clickDto.targetType}, #{clickDto.targetId}, NOW())
+    </insert>
+
+</mapper>

@@ -1,6 +1,7 @@
 package com.xiaoxin.blog.web.app.controller.discover;
 
 import com.xiaoxin.blog.common.result.Result;
+import com.xiaoxin.blog.model.enums.TargetType;
 import com.xiaoxin.blog.web.app.dto.RecommendClickDto;
 import com.xiaoxin.blog.web.app.service.RecommendService;
 import com.xiaoxin.blog.web.app.vo.RecommendArticleVo;
@@ -22,24 +23,15 @@ public class RecommendController {
     
     @Autowired
     private RecommendService recommendService;
-    
-    @Operation(summary = "获取推荐文章")
-    @GetMapping("/articles")
-    public Result<List<RecommendArticleVo>> getRecommendArticles(
-            @RequestParam(required = false) Long articleId,
-            @RequestParam(defaultValue = "10") Integer limit) {
-        List<RecommendArticleVo> articles = recommendService.getRecommendArticles(articleId, limit);
-        return Result.ok(articles);
-    }
-    
-    @Operation(summary = "获取个性化推荐")
+
+    @Operation(summary = "获取个性化文章推荐")
     @GetMapping("/personalized")
     public Result<List<RecommendArticleVo>> getPersonalizedRecommend(
             @RequestParam(defaultValue = "10") Integer limit) {
         List<RecommendArticleVo> articles = recommendService.getPersonalizedRecommend(limit);
         return Result.ok(articles);
     }
-    
+    //按照用户发布的文章点赞，评论数评判
     @Operation(summary = "获取推荐用户")
     @GetMapping("/users")
     public Result<List<RecommendUserVo>> getRecommendUsers(
@@ -47,16 +39,7 @@ public class RecommendController {
         List<RecommendUserVo> users = recommendService.getRecommendUsers(limit);
         return Result.ok(users);
     }
-    
-    @Operation(summary = "获取相关文章")
-    @GetMapping("/related")
-    public Result<List<RecommendArticleVo>> getRelatedArticles(
-            @RequestParam Long articleId,
-            @RequestParam(defaultValue = "5") Integer limit) {
-        List<RecommendArticleVo> articles = recommendService.getRelatedArticles(articleId, limit);
-        return Result.ok(articles);
-    }
-    
+
     @Operation(summary = "获取推荐分类")
     @GetMapping("/categories")
     public Result<List<RecommendCategoryVo>> getRecommendCategories(
@@ -75,7 +58,9 @@ public class RecommendController {
     
     @Operation(summary = "记录推荐点击")
     @PostMapping("/click")
-    public Result<Void> recordRecommendClick(@RequestBody @Valid RecommendClickDto clickDto) {
+    public Result<Void> recordRecommendClick(@RequestParam @Valid TargetType targetType,
+                                             @RequestParam @Valid  Long targetId) {
+        RecommendClickDto clickDto = RecommendClickDto.builder().targetType(targetType).targetId(targetId).build();
         recommendService.recordRecommendClick(clickDto);
         return Result.ok();
     }

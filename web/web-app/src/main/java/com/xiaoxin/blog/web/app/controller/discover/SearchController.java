@@ -39,14 +39,7 @@ public class SearchController {
         return Result.ok(articles);
     }
     
-    @Operation(summary = "搜索建议")
-    @GetMapping("/suggestions")
-    public Result<List<String>> getSearchSuggestions(
-            @RequestParam String keyword,
-            @RequestParam(defaultValue = "10") Integer limit) {
-        List<String> suggestions = searchService.getSearchSuggestions(keyword, limit);
-        return Result.ok(suggestions);
-    }
+
     
     @Operation(summary = "热门搜索")
     @GetMapping("/hot-keywords")

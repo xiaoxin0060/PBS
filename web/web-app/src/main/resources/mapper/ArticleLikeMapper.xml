@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaoxin.blog.web.app.mapper.ArticleLikeMapper">
+
+    <resultMap id="LikedArticleVoMap" type="com.xiaoxin.blog.web.app.vo.LikedArticleVo">
+        <id     property="id"         column="id"/>
+        <result property="title"      column="title"/>
+        <result property="viewCount"  column="view_count"/>
+        <result property="likeCount"  column="like_count"/>
+        <result property="createTime" column="create_time"/>
+        <result property="likedTime"  column="liked_time"/>
+    </resultMap>
+
+    <!-- 分页查询：我点赞的文章 -->
+    <select id="getMyLikedArticles" resultMap="LikedArticleVoMap">
+        SELECT
+            a.`id`,
+            a.`title`,
+            a.`view_count`,
+            a.`like_count`,
+            a.`create_time`,
+            l.`created_time` AS `liked_time`
+        FROM `article_like` l
+                 JOIN `article` a
+                      ON a.`id` = l.`article_id`
+                          AND a.`deleted` = 0
+                          AND a.`status` = 1
+        WHERE l.`user_id` = #{userId}
+        ORDER BY l.`created_time` DESC, a.`id` DESC
+    </select>
+
+
+</mapper>
