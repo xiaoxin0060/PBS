@@ -15,13 +15,13 @@ import org.springframework.web.multipart.MultipartFile;
 */
 public interface UserService extends IService<User> {
 
-    IPage<UserPageVo> getUserPage(Long userId);
+    UserPageVo getUserPage(Long userId);
 
-    IPage<UserArticleVo> getUserArticles(Long userId, Integer page, Integer size);
+    IPage<UserArticleVo> getUserArticles(Long userId, Integer cur, Integer size);
 
-    IPage<UserActivityVo> getUserActivities(Long userId, Integer page, Integer size);
 
-    IPage<UserSearchVo> searchUsers(String keyword, Integer page, Integer size);
+
+    IPage<UserSearchVo> searchUsers(String keyword, Integer cur, Integer size);
 
     UserProfileVo getCurrentUserProfile();
 

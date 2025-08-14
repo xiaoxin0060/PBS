@@ -54,7 +54,7 @@ public class Knife4jConfiguration {
     public GroupedOpenApi userAPI() {
         return GroupedOpenApi.builder()
                              .group("用户中心")
-                             .pathsToMatch("/app/user/**", "/app/profile/**")
+                             .pathsToMatch("/app/users/**", "/app/profile/**")
                              .build();
     }
 

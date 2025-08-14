@@ -1,4 +1,4 @@
 package com.xiaoxin.blog.web.app.vo;
 
-public class UserArticleVo{
+public class UserArticleVo extends MyArticleVo{
 }
