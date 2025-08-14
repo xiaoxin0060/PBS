@@ -1,7 +1,10 @@
 package com.xiaoxin.blog.web.app.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.xiaoxin.blog.model.entity.Comment;
+import com.xiaoxin.blog.web.app.dto.CommentQueryDto;
+import com.xiaoxin.blog.web.app.vo.CommentVo;
 
 /**
 * @author 小新
@@ -10,6 +13,8 @@ import com.xiaoxin.blog.model.entity.Comment;
 * @Entity com.xiaoxin.blog.model.entity.Comment
 */
 public interface CommentMapper extends BaseMapper<Comment> {
+
+    IPage<CommentVo> getComments(IPage<CommentVo> page, CommentQueryDto queryDto);
 
 }
 

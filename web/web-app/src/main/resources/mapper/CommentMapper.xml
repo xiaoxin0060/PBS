@@ -4,4 +4,36 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xiaoxin.blog.web.app.mapper.CommentMapper">
 
+    <resultMap id="CommentVoMap" type="com.xiaoxin.blog.web.app.vo.CommentVo">
+        <id     property="id"         column="id"/>
+        <result property="userName"   column="username"/>
+        <result property="content"    column="content"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+    <!-- IPage<CommentVo> getComments(IPage<?> page, @Param("queryDto") CommentQueryDto queryDto) -->
+    <select id="getComments" resultMap="CommentVoMap">
+        SELECT
+        c.`id`,
+        u.`username`      AS `username`,
+        c.`content`,
+        c.`create_time`
+        FROM `comment` c
+        LEFT JOIN `user` u ON u.`id` = c.`user_id`
+        <where>
+            c.`deleted` = 0
+            AND c.`status` = 1
+            <if test="queryDto != null and queryDto.articleId != null">
+                AND c.`article_id` = #{queryDto.articleId}
+            </if>
+            <if test="queryDto != null and queryDto.userId != null">
+                AND c.`user_id` = #{queryDto.userId}
+            </if>
+            <if test="queryDto != null and queryDto.parentId != null">
+                AND c.`parent_id` = #{queryDto.parentId}
+            </if>
+        </where>
+        ORDER BY c.`create_time` DESC, c.`id` DESC
+    </select>
+
 </mapper>

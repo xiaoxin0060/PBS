@@ -5,9 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.xiaoxin.blog.model.entity.Comment;
 import com.xiaoxin.blog.web.app.dto.AddCommentDto;
 import com.xiaoxin.blog.web.app.dto.CommentQueryDto;
-import com.xiaoxin.blog.web.app.dto.MyCommentQueryDto;
 import com.xiaoxin.blog.web.app.vo.CommentVo;
-import com.xiaoxin.blog.web.app.vo.MyCommentVo;
 
 /**
 * @author 小新
@@ -18,9 +16,9 @@ public interface CommentService extends IService<Comment> {
 
     IPage<CommentVo> getComments(CommentQueryDto queryDto);
 
-    Long addComment(AddCommentDto commentDto);
+    CommentVo addComment(AddCommentDto commentDto);
 
     void deleteUserComment(Long id);
 
-    IPage<MyCommentVo> getMyComments(MyCommentQueryDto queryDto);
+    IPage<CommentVo> getMyComments(CommentQueryDto queryDto);
 }

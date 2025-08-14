@@ -2,7 +2,6 @@ package com.xiaoxin.blog.web.app.controller.discover;
 
 import com.xiaoxin.blog.common.result.Result;
 import com.xiaoxin.blog.web.app.service.HomeService;
-import com.xiaoxin.blog.web.app.vo.BannerVo;
 import com.xiaoxin.blog.web.app.vo.HomeDataVo;
 import com.xiaoxin.blog.web.app.vo.RecommendArticleVo;
 import io.swagger.v3.oas.annotations.Operation;
@@ -38,11 +37,5 @@ public class HomeController {
         List<RecommendArticleVo> articles = homeService.getRecommendArticles(articleId, limit);
         return Result.ok(articles);
     }
-    
-    @Operation(summary = "获取轮播图")
-    @GetMapping("/banners")
-    public Result<List<BannerVo>> getBanners() {
-        List<BannerVo> banners = homeService.getBanners();
-        return Result.ok(banners);
-    }
+
 }
