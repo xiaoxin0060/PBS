@@ -22,5 +22,4 @@ public class ArticleListVo {
     private Integer likeCount;
     private Date createTime;
 
-
 }

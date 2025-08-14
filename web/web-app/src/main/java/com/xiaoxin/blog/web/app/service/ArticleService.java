@@ -3,8 +3,8 @@ package com.xiaoxin.blog.web.app.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.xiaoxin.blog.model.entity.Article;
-import com.xiaoxin.blog.model.enums.PopularType;
-import com.xiaoxin.blog.web.app.dto.*;
+import com.xiaoxin.blog.web.app.dto.ArticleQueryDto;
+import com.xiaoxin.blog.web.app.dto.UpdateArticleDto;
 import com.xiaoxin.blog.web.app.vo.ArticleDetailVo;
 import com.xiaoxin.blog.web.app.vo.ArticleListVo;
 import com.xiaoxin.blog.web.app.vo.MyArticleVo;
@@ -23,17 +23,16 @@ public interface ArticleService extends IService<Article> {
 
     ArticleDetailVo getArticleDetail(Long id);
 
-    List<PopularArticleVo> getPopularArticles(PopularType type, Integer days, Integer limit);
-
-    Long publishArticle(PublishArticleDto publishDto);
+    List<PopularArticleVo> getPopularArticles(Integer limit);
+    
 
     void updateUserArticle(Long id, UpdateArticleDto updateDto);
 
     void deleteUserArticle(Long id);
 
-    IPage<MyArticleVo> getMyArticles(MyArticleQueryDto queryDto);
+    
 
-    IPage<ArticleListVo> getArticlesByCategory(Long categoryId, PageQueryDto queryDto);
+    ArticleDetailVo publishArticle(Long id);
 
-    IPage<ArticleListVo> getArticlesByTag(Long tagId, PageQueryDto queryDto);
+    IPage<MyArticleVo> getMyArticles(ArticleQueryDto queryDto);
 }
