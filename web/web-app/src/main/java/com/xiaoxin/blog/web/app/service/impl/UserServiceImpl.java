@@ -4,20 +4,30 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.xiaoxin.blog.common.exception.BlogException;
+import com.xiaoxin.blog.common.login.LoginUserHolder;
+import com.xiaoxin.blog.common.result.ResultCodeEnum;
 import com.xiaoxin.blog.model.entity.Article;
 import com.xiaoxin.blog.model.entity.User;
 import com.xiaoxin.blog.web.app.dto.ChangePasswordDto;
 import com.xiaoxin.blog.web.app.dto.UpdateProfileDto;
 import com.xiaoxin.blog.web.app.mapper.ArticleMapper;
 import com.xiaoxin.blog.web.app.mapper.UserMapper;
+import com.xiaoxin.blog.web.app.service.AuthService;
+import com.xiaoxin.blog.web.app.service.FileService;
 import com.xiaoxin.blog.web.app.service.UserService;
 import com.xiaoxin.blog.web.app.vo.*;
+import io.minio.errors.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -31,6 +41,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
     private UserMapper userMapper;
     @Autowired
     private ArticleMapper articleMapper;
+    @Autowired
+    private FileService fileService;
+    @Autowired
+    private AuthService authService;
 
     @Override
     public UserPageVo getUserPage(Long userId)
@@ -83,31 +97,48 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
     @Override
     public UserProfileVo getCurrentUserProfile()
     {
-        return null;
+        User user = userMapper.selectById(LoginUserHolder.get().getUserId());
+        UserProfileVo vo = new UserProfileVo();
+        BeanUtils.copyProperties(user, vo);
+        return vo;
     }
 
     @Override
     public void updateProfile(UpdateProfileDto updateDto)
     {
-
+        User user = userMapper.selectById(LoginUserHolder.get().getUserId());
+        BeanUtils.copyProperties(updateDto, user);
+        userMapper.updateById(user);
     }
 
     @Override
-    public String uploadAvatar(MultipartFile file)
+    public String uploadAvatar(MultipartFile file) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException
     {
-        return "";
+        String url = fileService.uploadImage(file);
+        User user = userMapper.selectById(LoginUserHolder.get().getUserId());
+        user.setAvatar(url);
+        userMapper.updateById(user);
+        return url;
     }
 
     @Override
     public void changePassword(ChangePasswordDto changePasswordDto)
     {
-
+        Long userId = LoginUserHolder.get().getUserId();
+        User user = userMapper.selectById(userId);
+        if(!Objects.equals(user.getPassword(), changePasswordDto.getOriginalPassword())) throw new BlogException(ResultCodeEnum.ADMIN_PASSWORD_ERROR);
+        if(Objects.equals(user.getPassword(), changePasswordDto.getNewPassword())){
+            throw new BlogException(ResultCodeEnum.APP_PASSWORD_SAME_AS_OLD);
+        }
+        user.setPassword(changePasswordDto.getNewPassword());
+        userMapper.updateById(user);
     }
 
     @Override
     public UserStatisticsVo getUserStatistics()
     {
-        return null;
+        Long userId = LoginUserHolder.get().getUserId();
+        return userMapper.getUserStatistics(userId);
     }
 }
 

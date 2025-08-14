@@ -6,7 +6,12 @@ import com.xiaoxin.blog.model.entity.User;
 import com.xiaoxin.blog.web.app.dto.ChangePasswordDto;
 import com.xiaoxin.blog.web.app.dto.UpdateProfileDto;
 import com.xiaoxin.blog.web.app.vo.*;
+import io.minio.errors.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 
 /**
 * @author 小新
@@ -27,7 +32,7 @@ public interface UserService extends IService<User> {
 
     void updateProfile(UpdateProfileDto updateDto);
 
-    String uploadAvatar(MultipartFile file);
+    String uploadAvatar(MultipartFile file) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException;
 
     void changePassword(ChangePasswordDto changePasswordDto);
 

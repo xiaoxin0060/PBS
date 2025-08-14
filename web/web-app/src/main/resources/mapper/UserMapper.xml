@@ -4,4 +4,45 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xiaoxin.blog.web.app.mapper.UserMapper">
 
+    <resultMap id="UserStatisticsVoMap" type="com.xiaoxin.blog.web.app.vo.UserStatisticsVo">
+        <result property="articleCount" column="article_count"/>
+        <result property="commentCount" column="comment_count"/>
+        <result property="likeCount" column="like_count"/>
+    </resultMap>
+
+    <select id="getUserStatistics" resultMap="UserStatisticsVoMap">
+        SELECT
+        /* 我发表的已发布文章数 */
+        (SELECT COUNT(1)
+        FROM article a
+        WHERE a.user_id = #{userId}
+        AND a.status = 1
+        <if test="_databaseId == 'mysql'">
+            /* 若有逻辑删除字段，放开下面一行并确保存在该列 */
+             AND a.deleted = 0
+        </if>
+        ) AS article_count,
+
+        (SELECT COUNT(1)
+        FROM comment c
+        JOIN article a2 ON a2.id = c.article_id
+        WHERE a2.user_id = #{userId}
+        <if test="_databaseId == 'mysql'">
+             AND a2.deleted = 0
+             AND c.deleted = 0
+        </if>
+        <!-- 评论有效状态，按需启用 -->
+        AND (c.status = 1 OR c.status IS NULL)
+        ) AS comment_count,
+
+        /* 收到的点赞总数：汇总我所有“已发布文章”的 like_count */
+        (SELECT COALESCE(SUM(a3.like_count), 0)
+        FROM article a3
+        WHERE a3.user_id = #{userId}
+        AND a3.status = 1
+        <if test="_databaseId == 'mysql'">
+             AND a3.deleted = 0
+        </if>
+        ) AS like_count
+    </select>
 </mapper>

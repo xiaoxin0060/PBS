@@ -2,6 +2,7 @@ package com.xiaoxin.blog.web.app.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.xiaoxin.blog.model.entity.User;
+import com.xiaoxin.blog.web.app.vo.UserStatisticsVo;
 
 /**
 * @author 小新
@@ -11,6 +12,7 @@ import com.xiaoxin.blog.model.entity.User;
 */
 public interface UserMapper extends BaseMapper<User> {
 
+    UserStatisticsVo getUserStatistics(Long userId);
 }
 
 

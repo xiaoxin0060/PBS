@@ -6,12 +6,17 @@ import com.xiaoxin.blog.web.app.dto.UpdateProfileDto;
 import com.xiaoxin.blog.web.app.service.UserService;
 import com.xiaoxin.blog.web.app.vo.UserProfileVo;
 import com.xiaoxin.blog.web.app.vo.UserStatisticsVo;
+import io.minio.errors.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 
 @Tag(name = "个人中心")
 @RequestMapping("/app/profile")
@@ -37,7 +42,8 @@ public class ProfileController {
     
     @Operation(summary = "上传头像")
     @PostMapping("/avatar")
-    public Result<String> uploadAvatar(@RequestParam MultipartFile file) {
+    public Result<String> uploadAvatar(@RequestParam MultipartFile file) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException
+    {
         String avatarUrl = userService.uploadAvatar(file);
         return Result.ok(avatarUrl);
     }
