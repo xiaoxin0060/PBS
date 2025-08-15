@@ -11,6 +11,17 @@ spring:
       host: 192.168.127.100
       port: 6379
       database: 0
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    listener:
+      simple:
+        acknowledge-mode: auto # 最小 demo 用自动确认；生产建议手动 ack 并配合重试/死信
+    jackson:
+      time-zone: Asia/Shanghai
+      date-format: yyyy-MM-dd HH:mm:ss
 
 #用于打印框架生成的sql语句，便于调试
 mybatis-plus:

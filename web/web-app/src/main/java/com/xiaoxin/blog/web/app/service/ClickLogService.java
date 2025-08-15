@@ -1,4 +1,4 @@
-package com.xiaoxin.blog.model.service;
+package com.xiaoxin.blog.web.app.service;
 
 import com.xiaoxin.blog.model.entity.ClickLog;
 import com.baomidou.mybatisplus.extension.service.IService;
