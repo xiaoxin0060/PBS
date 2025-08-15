@@ -26,7 +26,7 @@ public class Notification {
 
     private String content;
 
-    private Object payloadJson;
+    private String payloadJson;
 
     private Integer isRead;
 

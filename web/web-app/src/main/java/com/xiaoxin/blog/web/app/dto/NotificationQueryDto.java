@@ -8,7 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Schema(description = "通知查询入参")
@@ -33,9 +33,9 @@ public class NotificationQueryDto {
 
     @Schema(description = "开始时间（含）")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime beginTime;
+    private Date beginTime;
 
     @Schema(description = "结束时间（含）")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime endTime;
+    private Date endTime;
 }

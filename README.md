@@ -1,11 +1,7 @@
 
 # Personal Blog System
 
-![Project Logo](https://via.placeholder.com/150?text=Blog)  <!-- 你可以替换为实际logo或删除 -->
 
-[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Java Version](https://img.shields.io/badge/Java-17%2B-green)](https://openjdk.org/)
-[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.x-brightgreen)](https://spring.io/projects/spring-boot)
 
 ## 项目概述
 
@@ -16,11 +12,7 @@
 ### 项目目标
 - **功能完整**：实现博客核心功能，支持游客浏览、用户互动和管理员管理。
 - **技术覆盖广**：锻炼 Spring Boot、Vue 前后端分离、数据库设计、中间件集成。
-- **难度适中**：适合大二/大三学生独立开发，体量控制在 2-4 周完成。
-- **面试亮点**：可详细讲解“如何用消息队列处理高并发浏览量”“Redis 缓存穿透防护”等实际问题。
 
-### 作者背景
-- 作为一名计算机专业大二学生（即将升大三），我通过这个自研项目巩固 Spring Boot 3 + Vue 3 技能，规划用于简历展示和 Java 后端实习申请。
 
 ## 技术栈
 
@@ -31,8 +23,8 @@
 - **中间件**：
   - **Redis**：缓存热门数据、存储验证码/会话、计数器（浏览/点赞）、限流（Redisson）
   - **MinIO**：对象存储，用于图片/文件上传（文章封面、用户头像等）
-  - **消息队列**（RabbitMQ/Kafka）：异步处理（如浏览量统计、通知推送、任务解耦）
-- **其他**：Lombok（简化代码）、SpringDoc（OpenAPI 接口文档）、Logback（日志）、Global Exception Handler（异常处理）
+  - **消息队列**（RabbitMQ）：异步处理（如浏览量统计、通知推送、任务解耦）
+- **其他**：Lombok（简化代码）、SpringDoc（OpenAPI 接口文档）、Sl4j（日志）、Global Exception Handler（异常处理）
 
 ### 前端
 - **框架**：Vue 3 + Vue Router + Pinia（状态管理）
@@ -40,7 +32,7 @@
 - **其他**：Axios（HTTP 请求）、Markdown 编辑器（文章编辑）
 
 ### 部署与工具
-- **服务器**：虚拟机（e.g., Ubuntu） + Nginx（反向代理）
+- **服务器**：虚拟机（CentOS 7） + Nginx（反向代理）
 - **构建**：Maven（后端） / Vite（前端）
 - **开发工具**：IntelliJ IDEA / VS Code
 - **版本控制**：Git
@@ -48,11 +40,10 @@
 ## 系统架构
 
 ### 高层架构图
-（此处可插入架构图，例如使用 Draw.io 生成的 PNG/SVG 图。简单描述：）
 
 - **前端**：Vue 3 应用，通过 API 调用后端接口。
 - **后端**：Spring Boot 服务，处理业务逻辑。
-- **数据库**：MySQL 主库，支持读写分离（可选扩展）。
+- **数据库**：MySQL 主库
 - **中间件层**：
   - Redis：缓存层，位于后端与数据库之间。
   - MinIO：文件存储服务，独立部署。
@@ -69,7 +60,7 @@
 - **游客**：无需登录，可浏览文章、分类、标签、评论。
 - **注册用户**：登录后可发布/编辑文章、评论、点赞、管理个人信息。
 - **管理员**：额外权限包括审核文章/评论、用户管理、系统统计/配置。
-- **权限实现**：JWT Token 认证 + 角色拦截（e.g., Spring Security @PreAuthorize）。游客接口无需 Token，用户/管理员接口校验角色。
+- **权限实现**：JWT Token 认证 + 角色拦截。游客接口无需 Token，用户/管理员接口校验角色。
 
 ### 2. 核心功能模块
 
@@ -89,7 +80,7 @@
   - 发送邮箱验证码（Redis 存储），验证后重置密码。
 - **中间件融入**：
   - **Redis**：存储验证码/会话 Token，防重放攻击；缓存用户资料（Hash 结构）。
-  - **消息队列**：注册/登录成功后，异步发送欢迎通知（e.g., MQ 投递邮件任务）。
+  - **消息队列**：注册/登录成功后，异步发送欢迎通知。
   - **MinIO**：存储用户头像文件。
 
 #### （2）文章管理
@@ -171,38 +162,7 @@
   - 文章 1:1 分类，N:M 标签。
   - 评论 N:1 文章，支持自关联（嵌套评论）。
 
-## 安装与部署
-
-### 环境要求
-- Java 17+
-- Node.js 16+（前端）
-- MySQL 8+
-- Redis 6+
-- MinIO（本地/虚拟机部署）
-- RabbitMQ（消息队列）
-
-### 步骤
-1. **克隆仓库**：`git clone https://github.com/your-username/personal-blog-system.git`
-2. **后端启动**：
-   - 配置 application.yml（数据库/Redis/MinIO/MQ 连接）。
-   - `mvn clean install`
-   - `java -jar target/blog-system.jar`
-3. **前端启动**：
-   - `cd frontend`
-   - `npm install`
-   - `npm run dev`
-4. **数据库初始化**：执行上方 SQL 脚本。
-5. **部署到虚拟机**：
-   - 打包 JAR/WAR，上传虚拟机。
-   - 配置 Nginx：反向代理后端（e.g., proxy_pass http://localhost:8080）。
-   - 启动服务：systemd 或 nohup。
-6. **测试**：访问 http://localhost:8080/swagger-ui.html（接口文档）。
-
-## 贡献指南
-- Fork 项目，提交 PR。
-- 报告 Issue 时，提供复现步骤和日志。
 
 ## 联系
-- 作者： [Your Name]
-- Email： [your.email@example.com]
-- GitHub： [your-github-link]
+- 作者： [Krisxin]
+

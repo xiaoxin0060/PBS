@@ -8,7 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Schema(description = "MQ 通知消息体")
 @Data
@@ -24,5 +24,5 @@ public class NotificationMessage {
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Builder.Default
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private Date createdAt = new Date();
 }

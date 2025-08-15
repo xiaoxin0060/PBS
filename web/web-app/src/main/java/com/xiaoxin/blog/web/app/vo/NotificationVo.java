@@ -8,7 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Schema(description = "通知展示对象")
 @Data
@@ -39,9 +39,9 @@ public class NotificationVo {
 
     @Schema(description = "创建时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime createdAt;
+    private Date createdAt;
 
     @Schema(description = "阅读时间（已读时存在）")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime readAt;
+    private Date readAt;
 }
